@@ -54,9 +54,14 @@ public class Domicilio {
     // toString
     @Override
     public String toString() {
-        return calle + " " + numero + ", " + localidad + ", " + provincia;
+        return "Calle: " + calle + "\n" +
+                "Número: " + numero + "\n" +
+                "Localidad: " + localidad + "\n" +
+                "Provincia: " + provincia + "\n";
     }
 }
+
+
 
 
 
