@@ -1,4 +1,6 @@
-package model;
+package src;
+import src.model.*;
+
 import java.util.Date;
 public class Main {
     public static void main(String[] args) {
