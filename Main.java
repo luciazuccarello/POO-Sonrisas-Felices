@@ -23,205 +23,393 @@ public class Main {
         ServicioOdontologo servicioOdontologo = new ServicioOdontologo(repoOdontologo);
         ServicioTurno servicioTurno = new ServicioTurno(repoTurno);
 
-        int opcion;
+        int opcionPrincipal;
 
         do {
 
             System.out.println("\n===== SONRISAS FELICES =====");
-            System.out.println("1. Registrar paciente");
-            System.out.println("2. Listar pacientes");
-            System.out.println("3. Registrar odontologo");
-            System.out.println("4. Listar odontologos");
-            System.out.println("5. Crear turno");
-            System.out.println("6. Listar turnos");
-            System.out.println("7. Cancelar turno");
+            System.out.println("1. Gestionar pacientes");
+            System.out.println("2. Gestionar odontologos");
+            System.out.println("3. Gestionar turnos");
             System.out.println("0. Salir");
 
-            opcion = scanner.nextInt();
+            opcionPrincipal = scanner.nextInt();
             scanner.nextLine();
 
-            switch (opcion) {
+            switch (opcionPrincipal) {
+
+                // =====================================
+                // MENU PACIENTES
+                // =====================================
 
                 case 1:
 
-                    System.out.println("\n--- REGISTRAR PACIENTE ---");
+                    int opcionPaciente;
 
-                    System.out.println("Ingrese ID:");
-                    Integer idPaciente = scanner.nextInt();
-                    scanner.nextLine();
+                    do {
 
-                    System.out.println("Ingrese nombre:");
-                    String nombrePaciente = scanner.nextLine();
+                        System.out.println("\n===== MENU PACIENTES =====");
+                        System.out.println("1. Registrar paciente particular");
+                        System.out.println("2. Registrar paciente obra social");
+                        System.out.println("3. Listar pacientes particulares");
+                        System.out.println("4. Listar pacientes obra social");
+                        System.out.println("5. Calcular costo consulta");
+                        System.out.println("0. Volver");
 
-                    System.out.println("Ingrese apellido:");
-                    String apellidoPaciente = scanner.nextLine();
+                        opcionPaciente = scanner.nextInt();
+                        scanner.nextLine();
 
-                    System.out.println("Ingrese DNI:");
-                    String dniPaciente = scanner.nextLine();
+                        switch (opcionPaciente) {
 
-                    System.out.println("Ingrese mail:");
-                    String mailPaciente = scanner.nextLine();
+                            // REGISTRAR PARTICULAR
 
-                    System.out.println("Ingrese calle:");
-                    String calle = scanner.nextLine();
+                            case 1:
 
-                    System.out.println("Ingrese numero:");
-                    int numero = scanner.nextInt();
-                    scanner.nextLine();
+                                System.out.println("\n--- REGISTRAR PACIENTE PARTICULAR ---");
 
-                    System.out.println("Ingrese localidad:");
-                    String localidad = scanner.nextLine();
+                                System.out.println("Ingrese ID:");
+                                Integer idPaciente = scanner.nextInt();
+                                scanner.nextLine();
 
-                    System.out.println("Ingrese provincia:");
-                    String provincia = scanner.nextLine();
+                                System.out.println("Ingrese nombre:");
+                                String nombrePaciente = scanner.nextLine();
 
-                    Domicilio domicilio = new Domicilio(
-                            calle,
-                            numero,
-                            localidad,
-                            provincia
-                    );
+                                System.out.println("Ingrese apellido:");
+                                String apellidoPaciente = scanner.nextLine();
 
-                    Paciente paciente = new PacienteParticular(
-                            idPaciente,
-                            nombrePaciente,
-                            apellidoPaciente,
-                            dniPaciente,
-                            mailPaciente,
-                            new Date(),
-                            domicilio
-                    );
+                                System.out.println("Ingrese DNI:");
+                                String dniPaciente = scanner.nextLine();
 
-                    servicioPaciente.registrarPaciente(paciente);
+                                System.out.println("Ingrese mail:");
+                                String mailPaciente = scanner.nextLine();
 
-                    System.out.println("Paciente registrado correctamente");
+                                System.out.println("Ingrese calle:");
+                                String calle = scanner.nextLine();
+
+                                System.out.println("Ingrese numero:");
+                                int numero = scanner.nextInt();
+                                scanner.nextLine();
+
+                                System.out.println("Ingrese localidad:");
+                                String localidad = scanner.nextLine();
+
+                                System.out.println("Ingrese provincia:");
+                                String provincia = scanner.nextLine();
+
+                                Domicilio domicilio = new Domicilio(
+                                        calle,
+                                        numero,
+                                        localidad,
+                                        provincia
+                                );
+
+                                Paciente paciente = new PacienteParticular(
+                                        idPaciente,
+                                        nombrePaciente,
+                                        apellidoPaciente,
+                                        dniPaciente,
+                                        mailPaciente,
+                                        new Date(),
+                                        domicilio
+                                );
+
+                                servicioPaciente.registrarPaciente(paciente);
+
+                                System.out.println("Paciente particular registrado");
+
+                                break;
+
+                            // REGISTRAR OBRA SOCIAL
+
+                            case 2:
+
+                                System.out.println("\n--- REGISTRAR PACIENTE OBRA SOCIAL ---");
+
+                                System.out.println("Ingrese ID:");
+                                Integer idPacienteOS = scanner.nextInt();
+                                scanner.nextLine();
+
+                                System.out.println("Ingrese nombre:");
+                                String nombrePacienteOS = scanner.nextLine();
+
+                                System.out.println("Ingrese apellido:");
+                                String apellidoPacienteOS = scanner.nextLine();
+
+                                System.out.println("Ingrese DNI:");
+                                String dniPacienteOS = scanner.nextLine();
+
+                                System.out.println("Ingrese mail:");
+                                String mailPacienteOS = scanner.nextLine();
+
+                                System.out.println("Ingrese calle:");
+                                String calleOS = scanner.nextLine();
+
+                                System.out.println("Ingrese numero:");
+                                int numeroOS = scanner.nextInt();
+                                scanner.nextLine();
+
+                                System.out.println("Ingrese localidad:");
+                                String localidadOS = scanner.nextLine();
+
+                                System.out.println("Ingrese provincia:");
+                                String provinciaOS = scanner.nextLine();
+
+                                System.out.println("Ingrese nombre obra social:");
+                                String obraSocial = scanner.nextLine();
+
+                                System.out.println("Ingrese número de afiliado: ");
+                                String numeroAfiliado = scanner.nextLine();
+
+                                Domicilio domicilioOS = new Domicilio(
+                                        calleOS,
+                                        numeroOS,
+                                        localidadOS,
+                                        provinciaOS
+                                );
+
+                                Paciente pacienteOS = new PacienteObraSocial(idPacienteOS, nombrePacienteOS, apellidoPacienteOS, dniPacienteOS, mailPacienteOS, new Date(), domicilioOS,obraSocial,numeroOS);
+
+                                servicioPaciente.registrarPaciente(pacienteOS);
+
+                                System.out.println("Paciente obra social registrado");
+
+                                break;
+
+                            // LISTAR PARTICULARES
+
+                            case 3:
+
+                                System.out.println("\n--- PACIENTES PARTICULARES ---");
+
+                                for (Paciente p : servicioPaciente.listarPacientes()) {
+
+                                    if (p instanceof PacienteParticular) {
+                                        System.out.println(p);
+                                    }
+                                }
+
+                                break;
+
+                            // LISTAR OBRA SOCIAL
+
+                            case 4:
+
+                                System.out.println("\n--- PACIENTES OBRA SOCIAL ---");
+
+                                for (Paciente p : servicioPaciente.listarPacientes()) {
+
+                                    if (p instanceof PacienteObraSocial) {
+                                        System.out.println(p);
+                                    }
+                                }
+
+                                break;
+
+                            // CALCULAR COSTO
+
+                            case 5:
+
+                                System.out.println("\n--- CALCULAR COSTO CONSULTA ---");
+
+                                System.out.println("Ingrese ID del paciente:");
+
+                                Long idCosto = scanner.nextLong();
+
+                                Paciente pacienteCosto = servicioPaciente.buscarPaciente(idCosto);
+
+                                if (pacienteCosto != null) {
+
+                                    double costo = pacienteCosto.calcularCostoConsulta();
+
+                                    System.out.println("Costo consulta: $" + costo);
+
+                                } else {
+
+                                    System.out.println("Paciente no encontrado");
+                                }
+
+                                break;
+
+                            case 0:
+
+                                break;
+
+                            default:
+
+                                System.out.println("Opcion invalida");
+                        }
+
+                    } while (opcionPaciente != 0);
 
                     break;
+
+                // =====================================
+                // MENU ODONTOLOGOS
+                // =====================================
 
                 case 2:
 
-                    System.out.println("\n--- LISTA DE PACIENTES ---");
+                    int opcionOdontologo;
 
-                    for (Paciente p : servicioPaciente.listarPacientes()) {
-                        System.out.println(p);
-                    }
+                    do {
+
+                        System.out.println("\n===== MENU ODONTOLOGOS =====");
+                        System.out.println("1. Registrar odontologo");
+                        System.out.println("2. Listar odontologos");
+                        System.out.println("0. Volver");
+
+                        opcionOdontologo = scanner.nextInt();
+                        scanner.nextLine();
+
+                        switch (opcionOdontologo) {
+
+                            case 1:
+
+                                System.out.println("\n--- REGISTRAR ODONTOLOGO ---");
+
+                                System.out.println("Ingrese ID:");
+                                Integer idOdontologo = scanner.nextInt();
+                                scanner.nextLine();
+
+                                System.out.println("Ingrese nombre:");
+                                String nombreOdontologo = scanner.nextLine();
+
+                                System.out.println("Ingrese apellido:");
+                                String apellidoOdontologo = scanner.nextLine();
+
+                                System.out.println("Ingrese mail:");
+                                String mailOdontologo = scanner.nextLine();
+
+                                System.out.println("Ingrese matricula:");
+                                String matricula = scanner.nextLine();
+
+                                Odontologo odontologo = new Odontologo(
+                                        idOdontologo,
+                                        nombreOdontologo,
+                                        apellidoOdontologo,
+                                        mailOdontologo,
+                                        matricula
+                                );
+
+                                servicioOdontologo.registrarOdontologo(odontologo);
+
+                                System.out.println("Odontologo registrado");
+
+                                break;
+
+                            case 2:
+
+                                System.out.println("\n--- LISTA DE ODONTOLOGOS ---");
+
+                                for (Odontologo o : servicioOdontologo.listarOdontologos()) {
+                                    System.out.println(o);
+                                }
+
+                                break;
+
+                            case 0:
+
+                                break;
+
+                            default:
+
+                                System.out.println("Opcion invalida");
+                        }
+
+                    } while (opcionOdontologo != 0);
 
                     break;
+
+                // =====================================
+                // MENU TURNOS
+                // =====================================
 
                 case 3:
 
-                    System.out.println("\n--- REGISTRAR ODONTOLOGO ---");
+                    int opcionTurno;
 
-                    System.out.println("Ingrese ID:");
-                    Integer idOdontologo = scanner.nextInt();
-                    scanner.nextLine();
+                    do {
 
-                    System.out.println("Ingrese nombre:");
-                    String nombreOdontologo = scanner.nextLine();
+                        System.out.println("\n===== MENU TURNOS =====");
+                        System.out.println("1. Crear turno");
+                        System.out.println("2. Listar turnos");
+                        System.out.println("3. Cancelar turno");
+                        System.out.println("0. Volver");
 
-                    System.out.println("Ingrese apellido:");
-                    String apellidoOdontologo = scanner.nextLine();
+                        opcionTurno = scanner.nextInt();
+                        scanner.nextLine();
 
-                    System.out.println("Ingrese mail:");
-                    String mailOdontologo = scanner.nextLine();
+                        switch (opcionTurno) {
 
-                    System.out.println("Ingrese matricula:");
-                    String matricula = scanner.nextLine();
+                            case 1:
 
-                    Odontologo odontologo = new Odontologo(
-                            idOdontologo,
-                            nombreOdontologo,
-                            apellidoOdontologo,
-                            mailOdontologo,
-                            matricula
-                    );
+                                System.out.println("\n--- CREAR TURNO ---");
 
-                    servicioOdontologo.registrarOdontologo(odontologo);
+                                System.out.println("Ingrese ID del paciente:");
+                                Long idPac = scanner.nextLong();
 
-                    System.out.println("Odontologo registrado correctamente");
+                                System.out.println("Ingrese ID del odontologo:");
+                                Long idOdo = scanner.nextLong();
 
-                    break;
+                                scanner.nextLine();
 
-                case 4:
+                                Paciente pacienteTurno = servicioPaciente.buscarPaciente(idPac);
+                                Odontologo odontologoTurno = servicioOdontologo.buscarOdontologo(idOdo);
 
-                    System.out.println("\n--- LISTA DE ODONTOLOGOS ---");
+                                if (pacienteTurno == null || odontologoTurno == null) {
 
-                    for (Odontologo o : servicioOdontologo.listarOdontologos()) {
-                        System.out.println(o);
-                    }
+                                    System.out.println("Paciente u odontologo inexistente");
 
-                    break;
+                                } else {
 
-                case 5:
+                                    servicioTurno.crearTurno(
+                                            pacienteTurno,
+                                            odontologoTurno,
+                                            new Date(),
+                                            new Date(),
+                                            EstadoTurno.CONFIRMADO
+                                    );
 
-                    System.out.println("\n--- CREAR TURNO ---");
+                                    System.out.println("Turno creado correctamente");
+                                }
 
-                    System.out.println("Ingrese ID del paciente:");
-                    Long idPac = scanner.nextLong();
+                                break;
 
-                    System.out.println("Ingrese ID del odontologo:");
-                    Long idOdo = scanner.nextLong();
+                            case 2:
 
-                    scanner.nextLine();
+                                System.out.println("\n--- LISTA DE TURNOS ---");
 
-                    Paciente pacienteTurno = servicioPaciente.buscarPaciente(idPac);
-                    Odontologo odontologoTurno = servicioOdontologo.buscarOdontologo(idOdo);
+                                for (Turno t : servicioTurno.listarTurnos()) {
+                                    System.out.println(t);
+                                }
 
-                    if (pacienteTurno == null || odontologoTurno == null) {
+                                break;
 
-                        System.out.println("Paciente u odontologo inexistente");
+                            case 3:
 
-                    } else {
+                                System.out.println("\n--- CANCELAR TURNO ---");
 
-                        servicioTurno.crearTurno(
-                                pacienteTurno,
-                                odontologoTurno,
-                                new Date(),
-                                new Date(),
-                                EstadoTurno.CONFIRMADO
-                        );
+                                System.out.println("Ingrese ID del turno:");
 
-                        System.out.println("Turno creado correctamente");
-                    }
+                                Long idTurno = scanner.nextLong();
 
-                    break;
+                                servicioTurno.cancelarTurno(idTurno);
 
-                case 6:
+                                System.out.println("Turno cancelado");
 
-                    System.out.println("\n--- LISTA DE TURNOS ---");
+                                break;
 
-                    for (Turno t : servicioTurno.listarTurnos()) {
-                        System.out.println(t);
-                    }
+                            case 0:
 
-                    break;
+                                break;
 
-                case 7:
+                            default:
 
-                    System.out.println("\n--- CANCELAR TURNO ---");
+                                System.out.println("Opcion invalida");
+                        }
 
-                    System.out.println("Ingrese ID del turno:");
-                    Long idTurno = scanner.nextLong();
+                    } while (opcionTurno != 0);
 
-                    servicioTurno.cancelarTurno(idTurno);
-
-                    System.out.println("Turno cancelado");
-
-                    break;
-
-                case 8:
-                    System.out.println("\n--- CALCULAR COSTO CONSULTA ---");
-                    System.out.println("Ingrese ID del paciente: ");
-                    Long idCosto = scanner.nextLong();
-
-                    Paciente pacienteCosto = servicioPaciente.buscarPaciente(idCosto);
-
-                    if (pacienteCosto != null) {
-                        double costo = pacienteCosto.calcularCostoConsulta();
-                        System.out.println("Costo de la consulta: $"+ costo);
-                    } else {
-                        System.out.println("Paciente no encontrado");
-                    }
                     break;
 
                 case 0:
@@ -234,7 +422,7 @@ public class Main {
                     System.out.println("Opcion invalida");
             }
 
-        } while (opcion != 0);
+        } while (opcionPrincipal != 0);
 
         scanner.close();
     }
