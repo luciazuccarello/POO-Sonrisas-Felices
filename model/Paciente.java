@@ -2,7 +2,7 @@ package src.model;
 
 import java.util.Date;
 
-public class Paciente {
+public abstract class Paciente {
 
     private Integer id;
     private String nombre;
