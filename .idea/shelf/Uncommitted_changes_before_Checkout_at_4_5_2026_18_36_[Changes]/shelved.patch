@@ -1,0 +1,144 @@
+Index: Turno.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Turno.java b/model/Turno.java
+rename from Turno.java
+rename to model/Turno.java
+--- a/Turno.java	(revision afd0325c55bc552bec817902963e821e9a058397)
++++ b/model/Turno.java	(date 1777930460995)
+@@ -1,8 +1,8 @@
+-package model;
++package model.model;
+ 
+ import java.util.Date;
+ 
+-public class Turno {
++public class  Turno {
+     private static int contador = 1;
+     private Integer id;
+     private Paciente paciente;
+Index: Paciente.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Paciente.java b/model/Paciente.java
+rename from Paciente.java
+rename to model/Paciente.java
+--- a/Paciente.java	(revision afd0325c55bc552bec817902963e821e9a058397)
++++ b/model/Paciente.java	(date 1777930460848)
+@@ -1,4 +1,4 @@
+-package model;
++package model.model;
+ 
+ import java.util.Date;
+ 
+Index: Recepcion.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Recepcion.java b/model/Recepcion.java
+rename from Recepcion.java
+rename to model/Recepcion.java
+--- a/Recepcion.java	(revision afd0325c55bc552bec817902963e821e9a058397)
++++ b/model/Recepcion.java	(date 1777930460780)
+@@ -1,4 +1,4 @@
+-package model;
++package model.model;
+ 
+ import java.util.Date;
+ 
+Index: Domicilio.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Domicilio.java b/model/Domicilio.java
+rename from Domicilio.java
+rename to model/Domicilio.java
+--- a/Domicilio.java	(revision afd0325c55bc552bec817902963e821e9a058397)
++++ b/model/Domicilio.java	(date 1777930461083)
+@@ -1,4 +1,4 @@
+-package model;
++package model.model;
+ 
+ public class Domicilio {
+     private String calle;
+Index: EstadoTurno.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/EstadoTurno.java b/model/EstadoTurno.java
+rename from EstadoTurno.java
+rename to model/EstadoTurno.java
+--- a/EstadoTurno.java	(revision afd0325c55bc552bec817902963e821e9a058397)
++++ b/model/EstadoTurno.java	(date 1777930461161)
+@@ -1,4 +1,4 @@
+-package model;
++package model.model;
+ public enum EstadoTurno {
+     PENDIENTE,
+     CONFIRMADO,
+Index: Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Main.java b/main/Main.java
+rename from Main.java
+rename to main/Main.java
+--- a/Main.java	(revision afd0325c55bc552bec817902963e821e9a058397)
++++ b/main/Main.java	(date 1777930460686)
+@@ -1,4 +1,6 @@
+-package model;
++package model.main;
++import model.model.*;
++
+ import java.util.Date;
+ public class Main {
+     public static void main(String[] args) {
+@@ -40,8 +42,12 @@
+         System.out.println(t1);
+ 
+         //  Reprogramar turno
++
++
+         //Guardo fecha anterior
+         Date fechaAnterior = t1.getFecha();
++
++
+         //Crear nueva fecha
+         Date nuevaFecha = new Date(System.currentTimeMillis() + 86400000); // +1 dìa
+         Date nuevaHora = nuevaFecha;
+Index: Odontologo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Odontologo.java b/model/Odontologo.java
+rename from Odontologo.java
+rename to model/Odontologo.java
+--- a/Odontologo.java	(revision afd0325c55bc552bec817902963e821e9a058397)
++++ b/model/Odontologo.java	(date 1777930460941)
+@@ -1,5 +1,5 @@
+ 
+-package model;
++package model.model;
+ 
+ public class Odontologo {
+ 
+@@ -9,7 +9,6 @@
+     private String mail;
+     private String matricula;
+ 
+-    public Odontologo() {}
+ 
+     public Odontologo(Integer id, String nombre, String apellido, String mail, String matricula) {
+         this.id = id;
+diff --git a/README.md b/model/README.md
+rename from README.md
+rename to model/README.md
