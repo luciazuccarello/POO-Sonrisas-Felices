@@ -5,19 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49fbf157-4dbe-472a-80ea-081ff0a74489" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/PacienteObraSocial.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PacienteParticular.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/IRepositorio.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/Repositorio.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/RepositorioOdontologo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/RepositorioPaciente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/RepositorioTurno.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/ServicioOdontologo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/ServicioPaciente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/ServicioTurno.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paciente.java" beforeDir="false" afterPath="$PROJECT_DIR$/Paciente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Turno.java" beforeDir="false" afterPath="$PROJECT_DIR$/Turno.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/Domicilio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/Domicilio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/EstadoTurno.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/EstadoTurno.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/Odontologo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/Odontologo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/Paciente.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/Paciente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/PacienteObraSocial.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/PacienteObraSocial.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/PacienteParticular.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/PacienteParticular.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/Recepcion.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/Recepcion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/Turno.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/Turno.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/repository/IRepositorio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/repository/IRepositorio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/repository/Repositorio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/repository/Repositorio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/repository/RepositorioOdontologo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/repository/RepositorioOdontologo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/repository/RepositorioPaciente.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/repository/RepositorioPaciente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/repository/RepositorioTurno.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/repository/RepositorioTurno.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/service/ServicioOdontologo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/service/ServicioOdontologo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/service/ServicioPaciente.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/service/ServicioPaciente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/model/service/ServicioTurno.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/model/service/ServicioTurno.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,37 +63,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "Rama-tobillo",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Rama-tobillo&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "ChangesTree.GroupingKeys": [
-      "directory",
-      "module",
-      "repository"
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;,
+      &quot;repository&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\simmi\IdeaProjects\POO-Sonrisas-Felices\model" />
