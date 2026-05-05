@@ -21,7 +21,7 @@ public class ServicioTurno {
                             EstadoTurno estado) {
 
         if (paciente == null || odontologo == null) {
-            throw new IllegalArgumentException("Datos invalidos");
+            throw new IllegalArgumentException("Datos inválidos");
         }
 
         Turno turno = new Turno();
@@ -63,5 +63,13 @@ public class ServicioTurno {
 
     public List<Turno> listarTurnos() {
         return repositorio.listarTodos();
+    }
+
+    public Turno buscarTurno(Long id) {
+        return repositorio.buscarPorId(id);
+    }
+
+    public void eliminarTurno(Long id) {
+        repositorio.eliminar(id);
     }
 }

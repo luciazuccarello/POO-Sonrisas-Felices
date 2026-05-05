@@ -38,9 +38,7 @@ public class Main {
 
             switch (opcionPrincipal) {
 
-                // =====================================
                 // MENU PACIENTES
-                // =====================================
 
                 case 1:
 
@@ -54,6 +52,8 @@ public class Main {
                         System.out.println("3. Listar pacientes particulares");
                         System.out.println("4. Listar pacientes obra social");
                         System.out.println("5. Calcular costo consulta");
+                        System.out.println("6. Buscar paciente por ID");
+                        System.out.println("7. Eliminar paciente");
                         System.out.println("0. Volver");
 
                         opcionPaciente = scanner.nextInt();
@@ -230,22 +230,65 @@ public class Main {
 
                                 break;
 
+                            case 6:
+                                System.out.println("\n--- BUSCAR PACIENTE ---");
+
+                                System.out.println("Ingrese ID del paciente:");
+
+                                Long idBusqueda = scanner.nextLong();
+
+                                Paciente pacienteBuscado = servicioPaciente.buscarPaciente(idBusqueda);
+
+                                if (pacienteBuscado != null) {
+
+                                    System.out.println(pacienteBuscado);
+
+                                } else {
+
+                                    System.out.println("Paciente no encontrado");
+                                }
+
+                                break;
+
+                            case 7:
+
+                                System.out.println("\n--- ELIMINAR PACIENTE ---");
+
+                                System.out.println("Ingrese ID del paciente:");
+
+                                Long idEliminar = scanner.nextLong();
+
+                                Paciente pacienteEliminar =
+                                        servicioPaciente.buscarPaciente(idEliminar);
+
+                                if (pacienteEliminar != null) {
+
+                                    servicioPaciente.eliminarPaciente(idEliminar);
+
+                                    System.out.println("Paciente eliminado correctamente");
+
+                                } else {
+
+                                    System.out.println("Paciente no encontrado");
+                                }
+
+                                break;
+
                             case 0:
 
                                 break;
 
                             default:
 
-                                System.out.println("Opcion invalida");
+                                System.out.println("Opción invalida");
                         }
 
                     } while (opcionPaciente != 0);
 
                     break;
 
-                // =====================================
+
                 // MENU ODONTOLOGOS
-                // =====================================
 
                 case 2:
 
@@ -254,8 +297,10 @@ public class Main {
                     do {
 
                         System.out.println("\n===== MENU ODONTOLOGOS =====");
-                        System.out.println("1. Registrar odontologo");
-                        System.out.println("2. Listar odontologos");
+                        System.out.println("1. Registrar odontólogo");
+                        System.out.println("2. Listar odontólogos");
+                        System.out.println("3. Buscar odontólogo por ID");
+                        System.out.println("4. Eliminar odontólogo");
                         System.out.println("0. Volver");
 
                         opcionOdontologo = scanner.nextInt();
@@ -293,7 +338,7 @@ public class Main {
 
                                 servicioOdontologo.registrarOdontologo(odontologo);
 
-                                System.out.println("Odontologo registrado");
+                                System.out.println("Odontólogo registrado");
 
                                 break;
 
@@ -307,22 +352,65 @@ public class Main {
 
                                 break;
 
+                            case 3:
+                                System.out.println("\n--- BUSCAR ODONTOLOGO ---");
+
+                                System.out.println("Ingrese ID del odontólogo:");
+
+                                Long idBusquedaOdo = scanner.nextLong();
+
+                                Odontologo odontologoBuscado =
+                                        servicioOdontologo.buscarOdontologo(idBusquedaOdo);
+
+                                if (odontologoBuscado != null) {
+
+                                    System.out.println(odontologoBuscado);
+
+                                } else {
+
+                                    System.out.println("Odontólogo no encontrado");
+                                }
+
+                                break;
+
+                            case 4:
+                                System.out.println("\n--- ELIMINAR ODONTOLOGO ---");
+
+                                System.out.println("Ingrese ID del odontólogo:");
+
+                                Long idEliminarOdo = scanner.nextLong();
+
+                                Odontologo odontologoEliminar =
+                                        servicioOdontologo.buscarOdontologo(idEliminarOdo);
+
+                                if (odontologoEliminar != null) {
+
+                                    servicioOdontologo.eliminarOdontologo(idEliminarOdo);
+
+                                    System.out.println("Odontólogo eliminado");
+
+                                } else {
+
+                                    System.out.println("Odontólogo no encontrado");
+                                }
+
+                                break;
+
                             case 0:
 
                                 break;
 
                             default:
 
-                                System.out.println("Opcion invalida");
+                                System.out.println("Opción invalida");
                         }
 
                     } while (opcionOdontologo != 0);
 
                     break;
 
-                // =====================================
+
                 // MENU TURNOS
-                // =====================================
 
                 case 3:
 
@@ -334,6 +422,8 @@ public class Main {
                         System.out.println("1. Crear turno");
                         System.out.println("2. Listar turnos");
                         System.out.println("3. Cancelar turno");
+                        System.out.println("4. Buscar turno por ID");
+                        System.out.println("5. Eliminar turno");
                         System.out.println("0. Volver");
 
                         opcionTurno = scanner.nextInt();
@@ -348,7 +438,7 @@ public class Main {
                                 System.out.println("Ingrese ID del paciente:");
                                 Long idPac = scanner.nextLong();
 
-                                System.out.println("Ingrese ID del odontologo:");
+                                System.out.println("Ingrese ID del odontólogo:");
                                 Long idOdo = scanner.nextLong();
 
                                 scanner.nextLine();
@@ -358,11 +448,11 @@ public class Main {
 
                                 if (pacienteTurno == null || odontologoTurno == null) {
 
-                                    System.out.println("Paciente u odontologo inexistente");
+                                    System.out.println("Paciente u odontólogo inexistente");
 
                                 } else {
 
-                                    servicioTurno.crearTurno(
+                                    Turno turnoCreado = servicioTurno.crearTurno(
                                             pacienteTurno,
                                             odontologoTurno,
                                             new Date(),
@@ -371,6 +461,7 @@ public class Main {
                                     );
 
                                     System.out.println("Turno creado correctamente");
+                                    System.out.println("ID del turno: " + turnoCreado.getID());
                                 }
 
                                 break;
@@ -399,13 +490,57 @@ public class Main {
 
                                 break;
 
+                            case 4:
+                                System.out.println("\n--- BUSCAR TURNO ---");
+
+                                System.out.println("Ingrese ID del turno:");
+
+                                Long idBusquedaTurno = scanner.nextLong();
+
+                                Turno turnoBuscado =
+                                        servicioTurno.buscarTurno(idBusquedaTurno);
+
+                                if (turnoBuscado != null) {
+
+                                    System.out.println(turnoBuscado);
+
+                                } else {
+
+                                    System.out.println("Turno no encontrado");
+                                }
+
+                                break;
+
+                            case 5:
+                                System.out.println("\n--- ELIMINAR TURNO ---");
+
+                                System.out.println("Ingrese ID del turno:");
+
+                                Long idEliminarTurno = scanner.nextLong();
+
+                                Turno turnoEliminar =
+                                        servicioTurno.buscarTurno(idEliminarTurno);
+
+                                if (turnoEliminar != null) {
+
+                                    servicioTurno.eliminarTurno(idEliminarTurno);
+
+                                    System.out.println("Turno eliminado");
+
+                                } else {
+
+                                    System.out.println("Turno no encontrado");
+                                }
+
+                                break;
+
                             case 0:
 
                                 break;
 
                             default:
 
-                                System.out.println("Opcion invalida");
+                                System.out.println("Opción invalida");
                         }
 
                     } while (opcionTurno != 0);
@@ -419,7 +554,7 @@ public class Main {
 
                 default:
 
-                    System.out.println("Opcion invalida");
+                    System.out.println("Opción invalida");
             }
 
         } while (opcionPrincipal != 0);

@@ -63,6 +63,10 @@ public class Turno {
         this.estado = estado;
     }
 
+    public Integer getID() {
+        return id;
+    }
+
     public double getMontoFinal (){
         return montoFinal;
     }
