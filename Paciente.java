@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-public class Paciente {
+public abstract class Paciente {
 
     private Integer id;
     private String nombre;
@@ -24,6 +24,8 @@ public class Paciente {
         this.fechaAlta = fechaAlta;
         this.domicilio = domicilio;
     }
+
+    public abstract double calcularCostoConsulta();
 
     public Integer getId() {
         return id;
@@ -57,11 +59,11 @@ public class Paciente {
         this.dni = dni;
     }
 
-    public String getMail (String mail) {
+    public String getMail() {
         return mail;
     }
 
-    public void setMail (String mail) {
+    public void setMail(String mail) {
         this.mail = mail;
     }
 

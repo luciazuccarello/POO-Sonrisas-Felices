@@ -10,6 +10,7 @@ public class Turno {
     private Date fecha;
     private Date hora;
     private EstadoTurno estado;
+    private double montoFinal;
 
     public Turno() {
         this.id = contador++;
@@ -22,6 +23,10 @@ public class Turno {
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
+    }
+
+    public void actualizarMonto() {
+        this.montoFinal = this.paciente.calcularCostoConsulta();
     }
 
     public Integer getId() {
@@ -54,6 +59,14 @@ public class Turno {
     }
     public void setEstado(EstadoTurno estado) {
         this.estado = estado;
+    }
+
+    public double getMontoFinal() {
+        return montoFinal;
+    }
+
+    public void setMontoFinal(double montoFinal) {
+        this.montoFinal = montoFinal;
     }
 
     @Override
