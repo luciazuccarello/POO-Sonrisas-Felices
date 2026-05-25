@@ -1,5 +1,7 @@
 package src.service;
 
+import src.exception.DatoInvalidoException;
+import src.exception.OdontologoNoEncontradoException;
 import src.model.Odontologo;
 import src.repository.RepositorioOdontologo;
 
@@ -13,20 +15,24 @@ public class ServicioOdontologo {
         this.repositorio = repositorio;
     }
 
-    public void registrarOdontologo(Odontologo odontologo) {
-
-        if (odontologo == null) {
-            throw new IllegalArgumentException("Odontologo invalido");
+    public void registrarOdontologo(Odontologo odontologo) throws DatoInvalidoException {
+        if (odontologo == null || odontologo.getMatricula() == null) {
+            throw new DatoInvalidoException("Odontólogo inválido.");
         }
-
         repositorio.guardar(odontologo);
     }
 
-    public Odontologo buscarOdontologo(Long id) {
-        return repositorio.buscarPorId(id);
+    // Se agrega el throws y la validación
+    public Odontologo buscarOdontologo(Long id) throws OdontologoNoEncontradoException {
+        Odontologo odontologo = repositorio.buscarPorId(id);
+        if (odontologo == null) {
+            throw new OdontologoNoEncontradoException("No se encontró el odontólogo con ID: " + id);
+        }
+        return odontologo;
     }
 
-    public void eliminarOdontologo(Long id) {
+    public void eliminarOdontologo(Long id) throws OdontologoNoEncontradoException {
+        buscarOdontologo(id); // Llama al metodo de arriba para validar si existe
         repositorio.eliminar(id);
     }
 
