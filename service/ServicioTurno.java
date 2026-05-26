@@ -54,7 +54,7 @@ public class ServicioTurno {
                 .collect(Collectors.toList());
     }
 
-    // Nuevo: Filtrar por paciente
+    // Filtrar por paciente
     public List<Turno> filtrarPorPaciente(Integer idPaciente) {
         return repositorio.listarTodos().stream()
                 .filter(t -> t.getPaciente().getId().equals(idPaciente))
