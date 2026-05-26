@@ -47,7 +47,7 @@ public class ServicioTurno {
         return turno;
     }
 
-    // Nuevo: Búsqueda por rango de fechas (Uso avanzado de colecciones)
+    // Búsqueda por rango de fechas.
     public List<Turno> buscarTurnosPorRango(Date fechaInicio, Date fechaFin) {
         return repositorio.listarTodos().stream()
                 .filter(t -> !t.getFecha().before(fechaInicio) && !t.getFecha().after(fechaFin))
@@ -61,7 +61,7 @@ public class ServicioTurno {
                 .collect(Collectors.toList());
     }
 
-    // Nuevo: Filtrar por odontólogo
+    // Filtrar por odontólogo
     public List<Turno> filtrarPorOdontologo(Integer idOdontologo) {
         return repositorio.listarTodos().stream()
                 .filter(t -> t.getOdontologo().getId().equals(idOdontologo))
@@ -74,6 +74,7 @@ public class ServicioTurno {
             turno.setEstado(EstadoTurno.CANCELADO);
         }
     }
+
 
     public void reprogramarTurno(Long id, Date nuevaFecha, Date nuevaHora) {
         Turno turno = repositorio.buscarPorId(id);
@@ -95,4 +96,6 @@ public class ServicioTurno {
     public void eliminarTurno(Long id) {
         repositorio.eliminar(id);
     }
+
+
 }

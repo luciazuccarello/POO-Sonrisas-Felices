@@ -41,7 +41,7 @@ public class ServicioPaciente {
                 .orElseThrow(() -> new PacienteNoEncontradoException("No se encontró paciente con DNI: " + dni));
     }
 
-    // Nuevo: Listado ordenado alfabéticamente (Uso avanzado de colecciones y Comparator)
+    // Listado ordenado alfabéticamente (Uso de colecciones y comparator)
     public List<Paciente> listarPacientesOrdenadosPorApellido() {
         return repositorio.listarTodos().stream()
                 .sorted(Comparator.comparing(Paciente::getApellido, String.CASE_INSENSITIVE_ORDER))
@@ -56,4 +56,5 @@ public class ServicioPaciente {
     public List<Paciente> listarPacientes() {
         return repositorio.listarTodos();
     }
+
 }

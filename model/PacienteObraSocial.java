@@ -1,5 +1,5 @@
 package src.model;
-
+import java.io.Serializable;
 import java.util.Date;
 public class PacienteObraSocial extends Paciente {
     private String nombreObraSocial;
