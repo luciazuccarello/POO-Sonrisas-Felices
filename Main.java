@@ -322,11 +322,10 @@ public class Main {
                         System.out.println("\n===== MENU TURNOS =====");
                         System.out.println("1. Crear turno");
                         System.out.println("2. Listar turnos");
-                        System.out.println("3.Filtrar turno por paciente");
-                        System.out.println("4. Filtrar turno por rango de fechas");
-                        System.out.println("3. Cancelar turno");
-                        System.out.println("4. Buscar turno por ID");
-                        System.out.println("5. Eliminar turno");
+                        System.out.println("3.Filtrar turno por paciente y/o odontólogo");
+                        System.out.println("4. Cancelar turno");
+                        System.out.println("5. Buscar turno por ID");
+                        System.out.println("6. Eliminar turno");
                         System.out.println("0. Volver");
 
                         opcionTurno = scanner.nextInt();
@@ -362,12 +361,10 @@ public class Main {
                             // LISTAR TURNOS
                             case 2:
                                 System.out.println("\n--- LISTA DE TURNOS ---");
-                                for (Turno t : servicioTurno.listarTurnos()) {
-                                    System.out.println(t);
-                                }
+                                servicioTurno.listarTurnos().forEach(System.out::println);
                                 break;
 
-                            // NUEVA OPCIÓN: Filtrar por paciente
+                            // Filtrar por paciente y/o Odontólogo
                             case 3:
                                 System.out.println("Ingrese ID del paciente para filtrar:");
                                 Long idFiltro = scanner.nextLong();
@@ -376,24 +373,19 @@ public class Main {
                                         .forEach(System.out::println);
                                 break;
 
-                            // NUEVA OPCIÓN: Filtrar por rango de fechas
-                            case 4:
-                                System.out.println("No olvides implementar la lógica de fechas aquí");
-                                // Ejemplo rápido con Stream:
-                                // .filter(t -> t.getFecha().after(inicio) && t.getFecha().before(fin))
-                                break;
+
                             // CANCELAR TURNO
-                            case 5:
+                            case 4:
                                 System.out.println("\n--- CANCELAR TURNO ---");
                                 System.out.println("Ingrese ID del turno:");
                                 Long idTurno = scanner.nextLong();
 
                                 servicioTurno.cancelarTurno(idTurno);
-                                System.out.println("Turno procesado.");
+                                System.out.println("Turno cancelado.");
                                 break;
 
                             // BUSCAR TURNO
-                            case 6:
+                            case 5:
                                 System.out.println("\n--- BUSCAR TURNO ---");
                                 System.out.println("Ingrese ID del turno:");
                                 Long idBusquedaTurno = scanner.nextLong();
@@ -407,7 +399,7 @@ public class Main {
                                 break;
 
                             // ELIMINAR TURNO
-                            case 7:
+                            case 6:
                                 System.out.println("\n--- ELIMINAR TURNO ---");
                                 System.out.println("Ingrese ID del turno:");
                                 Long idEliminarTurno = scanner.nextLong();
