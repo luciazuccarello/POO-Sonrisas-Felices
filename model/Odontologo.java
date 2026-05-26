@@ -1,0 +1,55 @@
+package src.model;
+
+public class Odontologo {
+
+    private Integer id;
+    private String nombre;
+    private String apellido;
+    private String mail;
+    private String matricula;
+
+    public Odontologo() {}
+
+    public Odontologo(Integer id, String nombre, String apellido, String mail, String matricula) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.mail = mail;
+        this.matricula = matricula;
+    }
+
+    public Integer getId() {
+        return id; }
+    public void setId(Integer id) {
+        this.id = id; }
+
+    public String getNombre() {
+        return nombre; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre; }
+
+    public String getApellido() {
+        return apellido; }
+    public void setApellido(String apellido) {
+        this.apellido = apellido; }
+
+    public String getMail(){
+        return mail;
+    }
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getMatricula() {
+        return matricula; }
+    public void setMatricula(String matricula) {
+        this.matricula = matricula; }
+
+    @Override
+    public String toString() {
+        return "ID Odontólogo: " + id + "\n" +
+                "Nombre: " + nombre + " " + apellido + "\n" +
+                "Mail Odontólogo: " + mail + "\n" +
+                "Matrícula: " + matricula;
+    }
+}
