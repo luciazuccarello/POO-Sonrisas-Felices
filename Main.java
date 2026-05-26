@@ -47,9 +47,10 @@ public class Main {
                         System.out.println("2. Registrar paciente obra social");
                         System.out.println("3. Listar pacientes particulares");
                         System.out.println("4. Listar pacientes obra social");
-                        System.out.println("5. Calcular costo consulta");
-                        System.out.println("6. Buscar paciente por ID");
-                        System.out.println("7. Eliminar paciente");
+                        System.out.println("5.Pacientes ordenados alfabéticamente");
+                        System.out.println("6. Calcular costo consulta");
+                        System.out.println("7. Buscar paciente por ID");
+                        System.out.println("8. Eliminar paciente");
                         System.out.println("0. Volver");
 
                         opcionPaciente = scanner.nextInt();
@@ -165,9 +166,16 @@ public class Main {
                                     }
                                 }
                                 break;
+                            case 5:
+                                System.out.println("\n--- PACIENTES ORDENADOS ALFABÉTICAMENTE ---");
+                                // Asumiendo que el método listarPacientesOrdenados() está en ServicioPaciente
+                                servicioPaciente.listarPacientes().stream()
+                                        .sorted() // Esto requiere que Paciente implemente Comparable
+                                        .forEach(System.out::println);
+                                break;
 
                             // CALCULAR COSTO
-                            case 5:
+                            case 6:
                                 try {
                                     System.out.println("\n--- CALCULAR COSTO CONSULTA ---");
                                     System.out.println("Ingrese ID del paciente:");
@@ -182,7 +190,7 @@ public class Main {
                                 break;
 
                             // BUSCAR PACIENTE POR ID
-                            case 6:
+                            case 7:
                                 try {
                                     System.out.println("\n--- BUSCAR PACIENTE ---");
                                     System.out.println("Ingrese ID del paciente:");
@@ -196,7 +204,7 @@ public class Main {
                                 break;
 
                             // ELIMINAR PACIENTE
-                            case 7:
+                            case 8:
                                 try {
                                     System.out.println("\n--- ELIMINAR PACIENTE ---");
                                     System.out.println("Ingrese ID del paciente:");
@@ -314,6 +322,8 @@ public class Main {
                         System.out.println("\n===== MENU TURNOS =====");
                         System.out.println("1. Crear turno");
                         System.out.println("2. Listar turnos");
+                        System.out.println("3.Filtrar turno por paciente");
+                        System.out.println("4. Filtrar turno por rango de fechas");
                         System.out.println("3. Cancelar turno");
                         System.out.println("4. Buscar turno por ID");
                         System.out.println("5. Eliminar turno");
@@ -357,8 +367,23 @@ public class Main {
                                 }
                                 break;
 
-                            // CANCELAR TURNO
+                            // NUEVA OPCIÓN: Filtrar por paciente
                             case 3:
+                                System.out.println("Ingrese ID del paciente para filtrar:");
+                                Long idFiltro = scanner.nextLong();
+                                servicioTurno.listarTurnos().stream()
+                                        .filter(t -> t.getPaciente().getId().equals(idFiltro.intValue()))
+                                        .forEach(System.out::println);
+                                break;
+
+                            // NUEVA OPCIÓN: Filtrar por rango de fechas
+                            case 4:
+                                System.out.println("No olvides implementar la lógica de fechas aquí");
+                                // Ejemplo rápido con Stream:
+                                // .filter(t -> t.getFecha().after(inicio) && t.getFecha().before(fin))
+                                break;
+                            // CANCELAR TURNO
+                            case 5:
                                 System.out.println("\n--- CANCELAR TURNO ---");
                                 System.out.println("Ingrese ID del turno:");
                                 Long idTurno = scanner.nextLong();
@@ -368,7 +393,7 @@ public class Main {
                                 break;
 
                             // BUSCAR TURNO
-                            case 4:
+                            case 6:
                                 System.out.println("\n--- BUSCAR TURNO ---");
                                 System.out.println("Ingrese ID del turno:");
                                 Long idBusquedaTurno = scanner.nextLong();
@@ -382,7 +407,7 @@ public class Main {
                                 break;
 
                             // ELIMINAR TURNO
-                            case 5:
+                            case 7:
                                 System.out.println("\n--- ELIMINAR TURNO ---");
                                 System.out.println("Ingrese ID del turno:");
                                 Long idEliminarTurno = scanner.nextLong();

@@ -1,8 +1,9 @@
 package src.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public abstract class Paciente {
+public abstract class Paciente implements Comparable<Paciente> {
 
     private Integer id;
     private String nombre;
@@ -12,8 +13,7 @@ public abstract class Paciente {
     private Date fechaAlta;
     private Domicilio domicilio;
 
-    public Paciente() {
-    }
+    public Paciente() {}
 
     public Paciente(Integer id, String nombre, String apellido, String dni, String mail, Date fechaAlta, Domicilio domicilio) {
         this.id = id;
@@ -25,64 +25,31 @@ public abstract class Paciente {
         this.domicilio = domicilio;
     }
 
-
     public abstract double calcularCostoConsulta();
 
-    public Integer getId() {
-        return id;
+    // Implementación de Comparable para ordenar por Apellido (alfabéticamente)
+    @Override
+    public int compareTo(Paciente otro) {
+        if (this.apellido == null || otro.getApellido() == null) return 0;
+        return this.apellido.compareToIgnoreCase(otro.getApellido());
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    // Getters y Setters
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getApellido() { return apellido; }
+    public void setApellido(String apellido) { this.apellido = apellido; }
+    public String getDni() { return dni; }
+    public void setDni(String dni) { this.dni = dni; }
+    public String getMail() { return mail; }
+    public void setMail(String mail) { this.mail = mail; }
+    public Date getFechaAlta() { return fechaAlta; }
+    public void setFechaAlta(Date fechaAlta) { this.fechaAlta = fechaAlta; }
+    public Domicilio getDomicilio() { return domicilio; }
+    public void setDomicilio(Domicilio domicilio) { this.domicilio = domicilio; }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public String getMail () {
-        return mail;
-    }
-
-    public void setMail (String mail) {
-        this.mail = mail;
-    }
-
-    public Date getFechaAlta() {
-        return fechaAlta;
-    }
-
-    public void setFechaAlta(Date fechaAlta) {
-        this.fechaAlta = fechaAlta;
-    }
-
-    public Domicilio getDomicilio() {
-        return domicilio;
-    }
-
-    public void setDomicilio(Domicilio domicilio) {
-        this.domicilio = domicilio;
-    }
 
     @Override
     public String toString() {

@@ -1,8 +1,9 @@
 package src.model;
-
+import java.io.Serializable;
 import java.util.Date;
 
-public class Turno {
+public class Turno implements java.io.Serializable{
+    private static final long serialVersionUID = 1L;
     private static int contador = 1;
     private Integer id;
     private Paciente paciente;
