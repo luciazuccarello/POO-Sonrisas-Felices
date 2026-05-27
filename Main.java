@@ -16,9 +16,14 @@ public class Main {
             if (prompt != null && !prompt.isEmpty()) System.out.println(prompt);
             String line = sc.nextLine();
             try {
-                return Integer.parseInt(line.trim());
+                int val = Integer.parseInt(line.trim());
+                if (val < 0) {
+                    System.out.println("El número no puede ser negativo. Intente nuevamente.");
+                    continue;
+                }
+                return val;
             } catch (Exception e) {
-                System.out.println("Entrada inválida. Ingrese un número entero.");
+                System.out.println("Entrada inválida. Ingrese un número entero no negativo.");
             }
         }
     }
@@ -28,9 +33,14 @@ public class Main {
             if (prompt != null && !prompt.isEmpty()) System.out.println(prompt);
             String line = sc.nextLine();
             try {
-                return Long.parseLong(line.trim());
+                long val = Long.parseLong(line.trim());
+                if (val < 0L) {
+                    System.out.println("El número no puede ser negativo. Intente nuevamente.");
+                    continue;
+                }
+                return val;
             } catch (Exception e) {
-                System.out.println("Entrada inválida. Ingrese un número entero.");
+                System.out.println("Entrada inválida. Ingrese un número entero no negativo.");
             }
         }
     }
