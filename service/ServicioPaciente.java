@@ -34,9 +34,12 @@ public class ServicioPaciente {
     }
 
     // Nuevo: Requisito para el diagrama de secuencia (búsqueda + stream)
-    public Paciente buscarPorDni(String dni) throws PacienteNoEncontradoException {
+    public Paciente buscarPorDni(String dni) throws PacienteNoEncontradoException, DatoInvalidoException {
+        if (dni == null || dni.trim().isEmpty()) {
+            throw new DatoInvalidoException("DNI inválido. Ingrese un DNI no vacío.");
+        }
         return repositorio.listarTodos().stream()
-                .filter(p -> p.getDni().equals(dni))
+                .filter(p -> p.getDni().equals(dni.trim()))
                 .findFirst()
                 .orElseThrow(() -> new PacienteNoEncontradoException("No se encontró paciente con DNI: " + dni));
     }

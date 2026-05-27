@@ -1,6 +1,7 @@
 package src.service;
 
 import src.exception.DatoInvalidoException;
+import src.exception.TurnoNoEncontradoException;
 import src.exception.TurnoYaReservadoException;
 import src.model.*;
 import src.repository.RepositorioTurno;
@@ -20,8 +21,8 @@ public class ServicioTurno {
     public Turno crearTurno(Paciente paciente, Odontologo odontologo, Date fecha, Date hora, EstadoTurno estado)
             throws DatoInvalidoException, TurnoYaReservadoException {
 
-        if (paciente == null || odontologo == null) {
-            throw new DatoInvalidoException("Datos de paciente u odontólogo inválidos.");
+        if (paciente == null || odontologo == null || fecha == null || hora == null) {
+            throw new DatoInvalidoException("Datos de paciente, odontólogo o fecha/hora inválidos.");
         }
 
         // Nuevo: Validación de turno ya ocupado usando Stream API
@@ -68,32 +69,42 @@ public class ServicioTurno {
                 .collect(Collectors.toList());
     }
 
-    public void cancelarTurno(Long id) {
+    public void cancelarTurno(Long id) throws TurnoNoEncontradoException {
         Turno turno = repositorio.buscarPorId(id);
-        if (turno != null) {
-            turno.setEstado(EstadoTurno.CANCELADO);
+        if (turno == null) {
+            throw new TurnoNoEncontradoException("No se encontró el turno con ID: " + id);
         }
+        turno.setEstado(EstadoTurno.CANCELADO);
     }
 
 
-    public void reprogramarTurno(Long id, Date nuevaFecha, Date nuevaHora) {
-        Turno turno = repositorio.buscarPorId(id);
-        if (turno != null) {
-            turno.setFecha(nuevaFecha);
-            turno.setHora(nuevaHora);
-            turno.setEstado(EstadoTurno.CONFIRMADO);
+    public void reprogramarTurno(Long id, Date nuevaFecha, Date nuevaHora) throws TurnoNoEncontradoException, DatoInvalidoException {
+        if (nuevaFecha == null || nuevaHora == null) {
+            throw new DatoInvalidoException("Fecha u hora nueva inválida.");
         }
+        Turno turno = repositorio.buscarPorId(id);
+        if (turno == null) {
+            throw new TurnoNoEncontradoException("No se encontró el turno con ID: " + id);
+        }
+        turno.setFecha(nuevaFecha);
+        turno.setHora(nuevaHora);
+        turno.setEstado(EstadoTurno.CONFIRMADO);
     }
 
     public List<Turno> listarTurnos() {
         return repositorio.listarTodos();
     }
 
-    public Turno buscarTurno(Long id) {
-        return repositorio.buscarPorId(id);
+    public Turno buscarTurno(Long id) throws TurnoNoEncontradoException {
+        Turno turno = repositorio.buscarPorId(id);
+        if (turno == null) {
+            throw new TurnoNoEncontradoException("No se encontró el turno con ID: " + id);
+        }
+        return turno;
     }
 
-    public void eliminarTurno(Long id) {
+    public void eliminarTurno(Long id) throws TurnoNoEncontradoException {
+        buscarTurno(id);
         repositorio.eliminar(id);
     }
 

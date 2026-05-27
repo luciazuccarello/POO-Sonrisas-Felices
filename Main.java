@@ -102,7 +102,8 @@ public class Main {
                         System.out.println("5.Pacientes ordenados alfabéticamente");
                         System.out.println("6. Calcular costo consulta");
                         System.out.println("7. Buscar paciente por ID");
-                        System.out.println("8. Eliminar paciente");
+                        System.out.println("8. Buscar paciente por DNI");
+                        System.out.println("9. Eliminar paciente");
                         System.out.println("0. Volver");
 
                         opcionPaciente = readIntSimple(scanner, "");
@@ -218,8 +219,21 @@ public class Main {
                                 }
                                 break;
 
-                            // ELIMINAR PACIENTE
+                            // BUSCAR PACIENTE POR DNI
                             case 8:
+                                try {
+                                    System.out.println("\n--- BUSCAR PACIENTE POR DNI ---");
+                                    String dniBusqueda = readNonEmptySimple(scanner, "Ingrese DNI del paciente:");
+
+                                    Paciente pacienteBuscado = servicioPaciente.buscarPorDni(dniBusqueda);
+                                    System.out.println(pacienteBuscado);
+                                } catch (PacienteNoEncontradoException | DatoInvalidoException e) {
+                                    System.out.println("Error: " + e.getMessage());
+                                }
+                                break;
+
+                            // ELIMINAR PACIENTE
+                            case 9:
                                 try {
                                     System.out.println("\n--- ELIMINAR PACIENTE ---");
                                     System.out.println("Ingrese ID del paciente:");
@@ -328,7 +342,7 @@ public class Main {
                         System.out.println("\n===== MENU TURNOS =====");
                         System.out.println("1. Crear turno");
                         System.out.println("2. Listar turnos");
-                        System.out.println("3.Filtrar turno por paciente y/o odontólogo");
+                        System.out.println("3. Filtrar turnos por paciente y/o odontólogo");
                         System.out.println("4. Cancelar turno");
                         System.out.println("5. Buscar turno por ID");
                         System.out.println("6. Eliminar turno");
@@ -368,52 +382,68 @@ public class Main {
                                 servicioTurno.listarTurnos().forEach(System.out::println);
                                 break;
 
-                            // Filtrar por paciente y/o Odontólogo
+                            // Filtrar por paciente y/o odontólogo
                             case 3:
-                                System.out.println("Ingrese ID del paciente para filtrar:");
-                                long idFiltro = readLongSimple(scanner, "");
-                                servicioTurno.listarTurnos().stream()
-                                    .filter(t -> t.getPaciente().getId().equals((int)idFiltro))
-                                    .forEach(System.out::println);
+                                System.out.println("\n--- FILTRAR TURNOS ---");
+                                System.out.println("Ingrese ID del paciente para filtrar (0 para omitir):");
+                                long idPacienteFiltro = readLongSimple(scanner, "");
+                                System.out.println("Ingrese ID del odontólogo para filtrar (0 para omitir):");
+                                long idOdontologoFiltro = readLongSimple(scanner, "");
+
+                                if (idPacienteFiltro <= 0 && idOdontologoFiltro <= 0) {
+                                    System.out.println("Debe ingresar al menos un ID válido para filtrar.");
+                                } else if (idPacienteFiltro > 0 && idOdontologoFiltro > 0) {
+                                    servicioTurno.listarTurnos().stream()
+                                            .filter(t -> t.getPaciente().getId().equals((int) idPacienteFiltro)
+                                                    && t.getOdontologo().getId().equals((int) idOdontologoFiltro))
+                                            .forEach(System.out::println);
+                                } else if (idPacienteFiltro > 0) {
+                                    servicioTurno.filtrarPorPaciente((int) idPacienteFiltro).forEach(System.out::println);
+                                } else {
+                                    servicioTurno.filtrarPorOdontologo((int) idOdontologoFiltro).forEach(System.out::println);
+                                }
                                 break;
 
 
                             // CANCELAR TURNO
                             case 4:
-                                System.out.println("\n--- CANCELAR TURNO ---");
-                                System.out.println("Ingrese ID del turno:");
-                                long idTurno = readLongSimple(scanner, "");
+                                try {
+                                    System.out.println("\n--- CANCELAR TURNO ---");
+                                    System.out.println("Ingrese ID del turno:");
+                                    long idTurno = readLongSimple(scanner, "");
 
-                                servicioTurno.cancelarTurno(idTurno);
-                                System.out.println("Turno cancelado.");
+                                    servicioTurno.cancelarTurno(idTurno);
+                                    System.out.println("Turno cancelado.");
+                                } catch (TurnoNoEncontradoException e) {
+                                    System.out.println("Error: " + e.getMessage());
+                                }
                                 break;
 
                             // BUSCAR TURNO
                             case 5:
-                                System.out.println("\n--- BUSCAR TURNO ---");
-                                System.out.println("Ingrese ID del turno:");
-                                long idBusquedaTurno = readLongSimple(scanner, "");
+                                try {
+                                    System.out.println("\n--- BUSCAR TURNO ---");
+                                    System.out.println("Ingrese ID del turno:");
+                                    long idBusquedaTurno = readLongSimple(scanner, "");
 
-                                Turno turnoBuscado = servicioTurno.buscarTurno(idBusquedaTurno);
-                                if (turnoBuscado != null) {
+                                    Turno turnoBuscado = servicioTurno.buscarTurno(idBusquedaTurno);
                                     System.out.println(turnoBuscado);
-                                } else {
-                                    System.out.println("Turno no encontrado");
+                                } catch (TurnoNoEncontradoException e) {
+                                    System.out.println("Error: " + e.getMessage());
                                 }
                                 break;
 
                             // ELIMINAR TURNO
                             case 6:
-                                System.out.println("\n--- ELIMINAR TURNO ---");
-                                System.out.println("Ingrese ID del turno:");
-                                long idEliminarTurno = readLongSimple(scanner, "");
+                                try {
+                                    System.out.println("\n--- ELIMINAR TURNO ---");
+                                    System.out.println("Ingrese ID del turno:");
+                                    long idEliminarTurno = readLongSimple(scanner, "");
 
-                                Turno turnoEliminar = servicioTurno.buscarTurno(idEliminarTurno);
-                                if (turnoEliminar != null) {
                                     servicioTurno.eliminarTurno(idEliminarTurno);
                                     System.out.println("Turno eliminado");
-                                } else {
-                                    System.out.println("Turno no encontrado");
+                                } catch (TurnoNoEncontradoException e) {
+                                    System.out.println("Error: " + e.getMessage());
                                 }
                                 break;
 
