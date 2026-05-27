@@ -10,6 +10,49 @@ import java.util.Scanner;
 
 public class Main {
 
+    // Validaciones sencillas integradas en Main (reintentan hasta entrada válida)
+    private static int readIntSimple(Scanner sc, String prompt) {
+        while (true) {
+            if (prompt != null && !prompt.isEmpty()) System.out.println(prompt);
+            String line = sc.nextLine();
+            try {
+                return Integer.parseInt(line.trim());
+            } catch (Exception e) {
+                System.out.println("Entrada inválida. Ingrese un número entero.");
+            }
+        }
+    }
+
+    private static long readLongSimple(Scanner sc, String prompt) {
+        while (true) {
+            if (prompt != null && !prompt.isEmpty()) System.out.println(prompt);
+            String line = sc.nextLine();
+            try {
+                return Long.parseLong(line.trim());
+            } catch (Exception e) {
+                System.out.println("Entrada inválida. Ingrese un número entero.");
+            }
+        }
+    }
+
+    private static String readNonEmptySimple(Scanner sc, String prompt) {
+        while (true) {
+            if (prompt != null && !prompt.isEmpty()) System.out.println(prompt);
+            String line = sc.nextLine().trim();
+            if (!line.isEmpty()) return line;
+            System.out.println("Entrada vacía. Intente nuevamente.");
+        }
+    }
+
+    private static String readEmailSimple(Scanner sc, String prompt) {
+        while (true) {
+            String mail = readNonEmptySimple(sc, prompt);
+            if (mail.contains("@") && mail.contains(".")) return mail;
+            System.out.println("Email inválido. Debe tener formato usuario@dominio.com. Intente nuevamente.");
+        }
+    }
+
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -33,8 +76,7 @@ public class Main {
             System.out.println("3. Gestionar turnos");
             System.out.println("0. Salir");
 
-            opcionPrincipal = scanner.nextInt();
-            scanner.nextLine();
+            opcionPrincipal = readIntSimple(scanner, "");
 
             switch (opcionPrincipal) {
 
@@ -53,8 +95,7 @@ public class Main {
                         System.out.println("8. Eliminar paciente");
                         System.out.println("0. Volver");
 
-                        opcionPaciente = scanner.nextInt();
-                        scanner.nextLine();
+                        opcionPaciente = readIntSimple(scanner, "");
 
                         switch (opcionPaciente) {
 
@@ -63,33 +104,16 @@ public class Main {
                                 try {
                                     System.out.println("\n--- REGISTRAR PACIENTE PARTICULAR ---");
                                     System.out.println("Ingrese ID:");
-                                    Integer idPaciente = scanner.nextInt();
-                                    scanner.nextLine();
+                                    int idPaciente = readIntSimple(scanner, "");
 
-                                    System.out.println("Ingrese nombre:");
-                                    String nombrePaciente = scanner.nextLine();
-
-                                    System.out.println("Ingrese apellido:");
-                                    String apellidoPaciente = scanner.nextLine();
-
-                                    System.out.println("Ingrese DNI:");
-                                    String dniPaciente = scanner.nextLine();
-
-                                    System.out.println("Ingrese mail:");
-                                    String mailPaciente = scanner.nextLine();
-
-                                    System.out.println("Ingrese calle:");
-                                    String calle = scanner.nextLine();
-
-                                    System.out.println("Ingrese numero:");
-                                    int numero = scanner.nextInt();
-                                    scanner.nextLine();
-
-                                    System.out.println("Ingrese localidad:");
-                                    String localidad = scanner.nextLine();
-
-                                    System.out.println("Ingrese provincia:");
-                                    String provincia = scanner.nextLine();
+                                    String nombrePaciente = readNonEmptySimple(scanner, "Ingrese nombre:");
+                                    String apellidoPaciente = readNonEmptySimple(scanner, "Ingrese apellido:");
+                                    String dniPaciente = readNonEmptySimple(scanner, "Ingrese DNI:");
+                                    String mailPaciente = readEmailSimple(scanner, "Ingrese mail:");
+                                    String calle = readNonEmptySimple(scanner, "Ingrese calle:");
+                                    int numero = readIntSimple(scanner, "Ingrese numero:");
+                                    String localidad = readNonEmptySimple(scanner, "Ingrese localidad:");
+                                    String provincia = readNonEmptySimple(scanner, "Ingrese provincia:");
 
                                     Domicilio domicilio = new Domicilio(calle, numero, localidad, provincia);
                                     Paciente paciente = new PacienteParticular(idPaciente, nombrePaciente, apellidoPaciente, dniPaciente, mailPaciente, new Date(), domicilio);
@@ -106,36 +130,17 @@ public class Main {
                                 try {
                                     System.out.println("\n--- REGISTRAR PACIENTE OBRA SOCIAL ---");
                                     System.out.println("Ingrese ID:");
-                                    Integer idPacienteOS = scanner.nextInt();
-                                    scanner.nextLine();
+                                    int idPacienteOS = readIntSimple(scanner, "");
 
-                                    System.out.println("Ingrese nombre:");
-                                    String nombrePacienteOS = scanner.nextLine();
-
-                                    System.out.println("Ingrese apellido:");
-                                    String apellidoPacienteOS = scanner.nextLine();
-
-                                    System.out.println("Ingrese DNI:");
-                                    String dniPacienteOS = scanner.nextLine();
-
-                                    System.out.println("Ingrese mail:");
-                                    String mailPacienteOS = scanner.nextLine();
-
-                                    System.out.println("Ingrese calle:");
-                                    String calleOS = scanner.nextLine();
-
-                                    System.out.println("Ingrese numero:");
-                                    int numeroOS = scanner.nextInt();
-                                    scanner.nextLine();
-
-                                    System.out.println("Ingrese localidad:");
-                                    String localidadOS = scanner.nextLine();
-
-                                    System.out.println("Ingrese provincia:");
-                                    String provinciaOS = scanner.nextLine();
-
-                                    System.out.println("Ingrese nombre obra social:");
-                                    String obraSocial = scanner.nextLine();
+                                    String nombrePacienteOS = readNonEmptySimple(scanner, "Ingrese nombre:");
+                                    String apellidoPacienteOS = readNonEmptySimple(scanner, "Ingrese apellido:");
+                                    String dniPacienteOS = readNonEmptySimple(scanner, "Ingrese DNI:");
+                                    String mailPacienteOS = readEmailSimple(scanner, "Ingrese mail:");
+                                    String calleOS = readNonEmptySimple(scanner, "Ingrese calle:");
+                                    int numeroOS = readIntSimple(scanner, "Ingrese numero:");
+                                    String localidadOS = readNonEmptySimple(scanner, "Ingrese localidad:");
+                                    String provinciaOS = readNonEmptySimple(scanner, "Ingrese provincia:");
+                                    String obraSocial = readNonEmptySimple(scanner, "Ingrese nombre obra social:");
 
                                     Domicilio domicilioOS = new Domicilio(calleOS, numeroOS, localidadOS, provinciaOS);
                                     Paciente pacienteOS = new PacienteObraSocial(idPacienteOS, nombrePacienteOS, apellidoPacienteOS, dniPacienteOS, mailPacienteOS, new Date(), domicilioOS, obraSocial, numeroOS);
@@ -179,7 +184,7 @@ public class Main {
                                 try {
                                     System.out.println("\n--- CALCULAR COSTO CONSULTA ---");
                                     System.out.println("Ingrese ID del paciente:");
-                                    Long idCosto = scanner.nextLong();
+                                    long idCosto = readLongSimple(scanner, "");
 
                                     Paciente pacienteCosto = servicioPaciente.buscarPaciente(idCosto);
                                     double costo = pacienteCosto.calcularCostoConsulta();
@@ -194,7 +199,7 @@ public class Main {
                                 try {
                                     System.out.println("\n--- BUSCAR PACIENTE ---");
                                     System.out.println("Ingrese ID del paciente:");
-                                    Long idBusqueda = scanner.nextLong();
+                                    long idBusqueda = readLongSimple(scanner, "");
 
                                     Paciente pacienteBuscado = servicioPaciente.buscarPaciente(idBusqueda);
                                     System.out.println(pacienteBuscado);
@@ -208,7 +213,7 @@ public class Main {
                                 try {
                                     System.out.println("\n--- ELIMINAR PACIENTE ---");
                                     System.out.println("Ingrese ID del paciente:");
-                                    Long idEliminar = scanner.nextLong();
+                                    long idEliminar = readLongSimple(scanner, "");
 
                                     servicioPaciente.eliminarPaciente(idEliminar);
                                     System.out.println("Paciente eliminado correctamente");
@@ -237,8 +242,7 @@ public class Main {
                         System.out.println("4. Eliminar odontólogo");
                         System.out.println("0. Volver");
 
-                        opcionOdontologo = scanner.nextInt();
-                        scanner.nextLine();
+                        opcionOdontologo = readIntSimple(scanner, "");
 
                         switch (opcionOdontologo) {
 
@@ -247,20 +251,12 @@ public class Main {
                                 try {
                                     System.out.println("\n--- REGISTRAR ODONTOLOGO ---");
                                     System.out.println("Ingrese ID:");
-                                    Integer idOdontologo = scanner.nextInt();
-                                    scanner.nextLine();
+                                    int idOdontologo = readIntSimple(scanner, "");
 
-                                    System.out.println("Ingrese nombre:");
-                                    String nombreOdontologo = scanner.nextLine();
-
-                                    System.out.println("Ingrese apellido:");
-                                    String apellidoOdontologo = scanner.nextLine();
-
-                                    System.out.println("Ingrese mail:");
-                                    String mailOdontologo = scanner.nextLine();
-
-                                    System.out.println("Ingrese matricula:");
-                                    String matricula = scanner.nextLine();
+                                    String nombreOdontologo = readNonEmptySimple(scanner, "Ingrese nombre:");
+                                    String apellidoOdontologo = readNonEmptySimple(scanner, "Ingrese apellido:");
+                                    String mailOdontologo = readEmailSimple(scanner, "Ingrese mail:");
+                                    String matricula = readNonEmptySimple(scanner, "Ingrese matricula:");
 
                                     Odontologo odontologo = new Odontologo(idOdontologo, nombreOdontologo, apellidoOdontologo, mailOdontologo, matricula);
                                     servicioOdontologo.registrarOdontologo(odontologo);
@@ -283,7 +279,7 @@ public class Main {
                                 try {
                                     System.out.println("\n--- BUSCAR ODONTOLOGO ---");
                                     System.out.println("Ingrese ID del odontólogo:");
-                                    Long idBusquedaOdo = scanner.nextLong();
+                                    long idBusquedaOdo = readLongSimple(scanner, "");
 
                                     Odontologo odontologoBuscado = servicioOdontologo.buscarOdontologo(idBusquedaOdo);
                                     System.out.println(odontologoBuscado);
@@ -297,7 +293,7 @@ public class Main {
                                 try {
                                     System.out.println("\n--- ELIMINAR ODONTOLOGO ---");
                                     System.out.println("Ingrese ID del odontólogo:");
-                                    Long idEliminarOdo = scanner.nextLong();
+                                    long idEliminarOdo = readLongSimple(scanner, "");
 
                                     servicioOdontologo.eliminarOdontologo(idEliminarOdo);
                                     System.out.println("Odontólogo eliminado");
@@ -328,8 +324,7 @@ public class Main {
                         System.out.println("6. Eliminar turno");
                         System.out.println("0. Volver");
 
-                        opcionTurno = scanner.nextInt();
-                        scanner.nextLine();
+                        opcionTurno = readIntSimple(scanner, "");
 
                         switch (opcionTurno) {
 
@@ -337,11 +332,10 @@ public class Main {
                             case 1:
                                 System.out.println("\n--- CREAR TURNO ---");
                                 System.out.println("Ingrese ID del paciente:");
-                                Long idPac = scanner.nextLong();
+                                long idPac = readLongSimple(scanner, "");
 
                                 System.out.println("Ingrese ID del odontólogo:");
-                                Long idOdo = scanner.nextLong();
-                                scanner.nextLine();
+                                long idOdo = readLongSimple(scanner, "");
 
                                 try {
                                     Paciente pacienteTurno = servicioPaciente.buscarPaciente(idPac);
@@ -367,10 +361,10 @@ public class Main {
                             // Filtrar por paciente y/o Odontólogo
                             case 3:
                                 System.out.println("Ingrese ID del paciente para filtrar:");
-                                Long idFiltro = scanner.nextLong();
+                                long idFiltro = readLongSimple(scanner, "");
                                 servicioTurno.listarTurnos().stream()
-                                        .filter(t -> t.getPaciente().getId().equals(idFiltro.intValue()))
-                                        .forEach(System.out::println);
+                                    .filter(t -> t.getPaciente().getId().equals((int)idFiltro))
+                                    .forEach(System.out::println);
                                 break;
 
 
@@ -378,7 +372,7 @@ public class Main {
                             case 4:
                                 System.out.println("\n--- CANCELAR TURNO ---");
                                 System.out.println("Ingrese ID del turno:");
-                                Long idTurno = scanner.nextLong();
+                                long idTurno = readLongSimple(scanner, "");
 
                                 servicioTurno.cancelarTurno(idTurno);
                                 System.out.println("Turno cancelado.");
@@ -388,7 +382,7 @@ public class Main {
                             case 5:
                                 System.out.println("\n--- BUSCAR TURNO ---");
                                 System.out.println("Ingrese ID del turno:");
-                                Long idBusquedaTurno = scanner.nextLong();
+                                long idBusquedaTurno = readLongSimple(scanner, "");
 
                                 Turno turnoBuscado = servicioTurno.buscarTurno(idBusquedaTurno);
                                 if (turnoBuscado != null) {
@@ -402,7 +396,7 @@ public class Main {
                             case 6:
                                 System.out.println("\n--- ELIMINAR TURNO ---");
                                 System.out.println("Ingrese ID del turno:");
-                                Long idEliminarTurno = scanner.nextLong();
+                                long idEliminarTurno = readLongSimple(scanner, "");
 
                                 Turno turnoEliminar = servicioTurno.buscarTurno(idEliminarTurno);
                                 if (turnoEliminar != null) {
