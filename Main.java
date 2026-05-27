@@ -5,6 +5,8 @@ import src.repository.*;
 import src.service.*;
 import src.exception.*; // Importamos las excepciones personalizadas
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -59,6 +61,20 @@ public class Main {
             String mail = readNonEmptySimple(sc, prompt);
             if (mail.contains("@") && mail.contains(".")) return mail;
             System.out.println("Email inválido. Debe tener formato usuario@dominio.com. Intente nuevamente.");
+        }
+    }
+
+    private static Date readDateSimple(Scanner sc, String prompt) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        formatter.setLenient(false);
+        while (true) {
+            if (prompt != null && !prompt.isEmpty()) System.out.println(prompt);
+            String line = sc.nextLine().trim();
+            try {
+                return formatter.parse(line);
+            } catch (ParseException e) {
+                System.out.println("Fecha inválida. Use el formato dd/MM/yyyy, por ejemplo 25/05/2026.");
+            }
         }
     }
 
@@ -343,9 +359,10 @@ public class Main {
                         System.out.println("1. Crear turno");
                         System.out.println("2. Listar turnos");
                         System.out.println("3. Filtrar turnos por paciente y/o odontólogo");
-                        System.out.println("4. Cancelar turno");
-                        System.out.println("5. Buscar turno por ID");
-                        System.out.println("6. Eliminar turno");
+                        System.out.println("4. Filtrar turnos por rango de fechas");
+                        System.out.println("5. Cancelar turno");
+                        System.out.println("6. Buscar turno por ID");
+                        System.out.println("7. Eliminar turno");
                         System.out.println("0. Volver");
 
                         opcionTurno = readIntSimple(scanner, "");
@@ -404,9 +421,35 @@ public class Main {
                                 }
                                 break;
 
+                            // FILTRAR POR RANGO DE FECHAS
+                            case 4:
+                                System.out.println("\n--- BUSCAR TURNOS POR RANGO DE FECHAS ---");
+                                Date fechaInicio;
+                                Date fechaFin;
+                                while (true) {
+                                    fechaInicio = readDateSimple(scanner, "Ingrese fecha de inicio (dd/MM/yyyy):");
+                                    fechaFin = readDateSimple(scanner, "Ingrese fecha fin (dd/MM/yyyy):");
+
+                                    if (fechaFin.before(fechaInicio)) {
+                                        System.out.println("La fecha fin no puede ser anterior a la fecha inicio. Intente nuevamente.");
+                                    } else {
+                                        break;
+                                    }
+                                }
+
+                                try {
+                                    servicioTurno.buscarTurnosPorRango(fechaInicio, fechaFin)
+                                            .forEach(System.out::println);
+                                } catch (TurnoNoEncontradoException e) {
+                                    System.out.println("No se encontraron turnos en ese rango. " + e.getMessage());
+                                } catch (DatoInvalidoException e) {
+                                    System.out.println("Error: " + e.getMessage());
+                                }
+                                break;
+
 
                             // CANCELAR TURNO
-                            case 4:
+                            case 5:
                                 try {
                                     System.out.println("\n--- CANCELAR TURNO ---");
                                     System.out.println("Ingrese ID del turno:");
@@ -420,7 +463,7 @@ public class Main {
                                 break;
 
                             // BUSCAR TURNO
-                            case 5:
+                            case 6:
                                 try {
                                     System.out.println("\n--- BUSCAR TURNO ---");
                                     System.out.println("Ingrese ID del turno:");
@@ -434,7 +477,7 @@ public class Main {
                                 break;
 
                             // ELIMINAR TURNO
-                            case 6:
+                            case 7:
                                 try {
                                     System.out.println("\n--- ELIMINAR TURNO ---");
                                     System.out.println("Ingrese ID del turno:");

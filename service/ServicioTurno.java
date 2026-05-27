@@ -49,10 +49,22 @@ public class ServicioTurno {
     }
 
     // Búsqueda por rango de fechas.
-    public List<Turno> buscarTurnosPorRango(Date fechaInicio, Date fechaFin) {
-        return repositorio.listarTodos().stream()
+    public List<Turno> buscarTurnosPorRango(Date fechaInicio, Date fechaFin) throws TurnoNoEncontradoException, DatoInvalidoException {
+        if (fechaInicio == null || fechaFin == null) {
+            throw new DatoInvalidoException("Fecha de inicio o fin inválida.");
+        }
+        if (fechaFin.before(fechaInicio)) {
+            throw new DatoInvalidoException("La fecha fin no puede ser anterior a la fecha inicio.");
+        }
+
+        List<Turno> turnos = repositorio.listarTodos().stream()
                 .filter(t -> !t.getFecha().before(fechaInicio) && !t.getFecha().after(fechaFin))
                 .collect(Collectors.toList());
+
+        if (turnos.isEmpty()) {
+            throw new TurnoNoEncontradoException("No se encontraron turnos entre " + fechaInicio + " y " + fechaFin + ".");
+        }
+        return turnos;
     }
 
     // Filtrar por paciente
