@@ -1,10 +1,10 @@
-package src.service;
+package service;
 
-import src.exception.ClinicaException;
-import src.exception.TurnoYaReservadoException;
-import src.model.*;
-import src.model.Turno;
-import src.repository.RepositorioTurno;
+import exception.ClinicaException;
+import exception.TurnoYaReservadoException;
+import model.*;
+import model.Turno;
+import repository.RepositorioTurno;
 
 import java.util.Date;
 import java.util.List;

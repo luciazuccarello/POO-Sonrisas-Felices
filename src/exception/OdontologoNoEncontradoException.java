@@ -1,7 +1,7 @@
-package src.exception;
+package exception;
 
-public class OdontologoNoEncontradoException extends src.exception.ClinicaException {
-    public OdontologoNoEncontradoException(String mensaje) {
-        super(mensaje);
+public class OdontologoNoEncontradoException extends exception.ClinicaException {
+    public OdontologoNoEncontradoException(String message) {
+        super(message);
     }
 }

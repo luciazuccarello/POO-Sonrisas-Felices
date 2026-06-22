@@ -1,10 +1,10 @@
-package src.model;
-
+package model;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Turno {
-
-    private static int contador = 1;
+public class Turno implements Serializable{
+    private static final long serialVersionUID = 1L;
+    private static Integer contador = 1;
     private Integer id;
     private Paciente paciente;
     private Odontologo odontologo;

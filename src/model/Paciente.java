@@ -1,9 +1,11 @@
-package src.model;
-
+package model;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.Date;
 
-public abstract class Paciente {
-
+public abstract class Paciente implements Serializable {
+    // Identificador único requerido para la persistencia de objetos en archivos binarios
+    private static final long serialVersionUID = 1L;
     private Integer id;
     private String nombre;
     private String apellido;

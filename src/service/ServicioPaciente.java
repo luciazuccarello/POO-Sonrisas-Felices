@@ -1,9 +1,9 @@
-package src.service;
+package service;
 
-import src.exception.ClinicaException;
-import src.exception.PacienteNoEncontradoException;
-import src.model.Paciente;
-import src.repository.RepositorioPaciente;
+import exception.ClinicaException;
+import exception.PacienteNoEncontradoException;
+import model.Paciente;
+import repository.RepositorioPaciente;
 
 import java.util.Comparator;
 import java.util.List;
@@ -25,6 +25,15 @@ public class ServicioPaciente {
         validarTextoObligatorio(paciente.getApellido(), "apellido");
         validarTextoObligatorio(paciente.getDni(), "DNI");
         validarTextoObligatorio(paciente.getMail(), "mail");
+        repositorio.guardar(paciente);
+    }
+
+    public void actualizarPaciente(Paciente paciente) throws ClinicaException {
+
+        if (paciente == null) {
+            throw new ClinicaException("Paciente inválido.");
+        }
+
         repositorio.guardar(paciente);
     }
 

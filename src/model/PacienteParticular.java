@@ -1,10 +1,10 @@
-package src.model;
+package model;
 
 import java.util.Date;
 
-public class PacienteParticular extends src.model.Paciente {
+public class PacienteParticular extends Paciente {
 
-    public PacienteParticular(Integer id, String nombre, String apellido, String dni, String mail, Date fechaAlta, src.model.Domicilio domicilio) {
+    public PacienteParticular(Integer id, String nombre, String apellido, String dni, String mail, Date fechaAlta, Domicilio domicilio) {
         super(id, nombre, apellido, dni, mail, fechaAlta, domicilio);
     }
 

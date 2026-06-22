@@ -1,9 +1,9 @@
-package src.service;
+package service;
 
-import src.exception.ClinicaException;
-import src.exception.OdontologoNoEncontradoException;
-import src.model.Odontologo;
-import src.repository.RepositorioOdontologo;
+import exception.ClinicaException;
+import exception.OdontologoNoEncontradoException;
+import model.Odontologo;
+import repository.RepositorioOdontologo;
 
 import java.util.List;
 
@@ -38,6 +38,15 @@ public class ServicioOdontologo {
     public void eliminarOdontologo(Long id) throws OdontologoNoEncontradoException {
         buscarOdontologo(id); // Llama al metodo de arriba para validar si existe
         repositorio.eliminar(id);
+    }
+
+    public void actualizarOdontologo(Odontologo odontologo) throws ClinicaException {
+
+        if (odontologo == null) {
+            throw new ClinicaException("Odontólogo inválido.");
+        }
+
+        repositorio.guardar(odontologo);
     }
 
     public List<Odontologo> listarOdontologos() {
