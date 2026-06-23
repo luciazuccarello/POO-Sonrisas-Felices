@@ -11,12 +11,13 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
 
 public class PanelTurno extends JPanel {
 
@@ -26,14 +27,16 @@ public class PanelTurno extends JPanel {
 
     private JComboBox<Paciente> cmbPacientes;
     private JComboBox<Odontologo> cmbOdontologos;
-    private JTextField txtFecha;
-    private JTextField txtHora;
+    private JSpinner spFecha;
+    private JComboBox<String> cmbHora;
 
     private JTable tabla;
     private DefaultTableModel modelo;
+    private Long turnoSeleccionadoId;
 
     private Border bordeOriginal;
     private final SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private final SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
 
     public PanelTurno(ServicioTurno servicioTurno,
                       ServicioPaciente servicioPaciente,
@@ -56,15 +59,25 @@ public class PanelTurno extends JPanel {
 
         cmbPacientes = new JComboBox<>();
         cmbOdontologos = new JComboBox<>();
-        txtFecha = new JTextField(12);
-        txtHora = new JTextField(8);
+        
+        // Configurar JSpinner para fecha
+        SpinnerDateModel modeloFecha = new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_MONTH);
+        spFecha = new JSpinner(modeloFecha);
+        JSpinner.DateEditor editorFecha = new JSpinner.DateEditor(spFecha, "dd/MM/yyyy");
+        spFecha.setEditor(editorFecha);
+        
+        // Configurar JComboBox para horas
+        cmbHora = new JComboBox<>();
+        for (int i = 0; i < 24; i++) {
+            cmbHora.addItem(String.format("%02d:00", i));
+        }
 
-        bordeOriginal = txtFecha.getBorder();
+        bordeOriginal = spFecha.getBorder();
 
         agregarCampo(formulario, gbc, 0, "Paciente:", cmbPacientes);
         agregarCampo(formulario, gbc, 1, "Odontólogo:", cmbOdontologos);
-        agregarCampo(formulario, gbc, 2, "Fecha (dd/MM/yyyy):", txtFecha);
-        agregarCampo(formulario, gbc, 3, "Hora (HH:mm):", txtHora);
+        agregarCampo(formulario, gbc, 2, "Fecha:", spFecha);
+        agregarCampo(formulario, gbc, 3, "Hora:", cmbHora);
 
         add(formulario, BorderLayout.WEST);
 
@@ -85,9 +98,11 @@ public class PanelTurno extends JPanel {
         JButton btnCrear = new JButton("Crear Turno");
         JButton btnCancelar = new JButton("Cancelar Turno");
         JButton btnEliminar = new JButton("Eliminar");
+        JButton btnReprogramar = new JButton("Reprogramar Turno");
         JButton btnActualizar = new JButton("Actualizar");
 
         botones.add(btnCrear);
+        botones.add(btnReprogramar);
         botones.add(btnCancelar);
         botones.add(btnEliminar);
         botones.add(btnActualizar);
@@ -95,38 +110,23 @@ public class PanelTurno extends JPanel {
         add(botones, BorderLayout.SOUTH);
 
         btnCrear.addActionListener(e -> crearTurno());
+        btnReprogramar.addActionListener(e -> reprogramarTurno());
         btnCancelar.addActionListener(e -> cancelarTurno());
         btnEliminar.addActionListener(e -> eliminarTurno());
         btnActualizar.addActionListener(e -> actualizarDatos());
-
-        txtFecha.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                txtFecha.setBorder(bordeOriginal);
-            }
-        });
-
-        txtHora.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                txtHora.setBorder(bordeOriginal);
-            }
-        });
+        cmbPacientes.addActionListener(e -> cmbPacientes.setBorder(bordeOriginal));
+        cmbOdontologos.addActionListener(e -> cmbOdontologos.setBorder(bordeOriginal));
+        cmbHora.addActionListener(e -> cmbHora.setBorder(bordeOriginal));
+        spFecha.addChangeListener(e -> spFecha.setBorder(bordeOriginal));
 
         tabla.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int fila = tabla.getSelectedRow();
-
-                if (fila != -1) {
-                    JOptionPane.showMessageDialog(
-                            PanelTurno.this,
-                            "Turno seleccionado: " + tabla.getValueAt(fila, 0)
-                    );
-                }
+                cargarTurnoSeleccionadoEnFormulario();
             }
         });
 
+        turnoSeleccionadoId = null;
         actualizarDatos();
     }
 
@@ -166,25 +166,63 @@ public class PanelTurno extends JPanel {
     private boolean validarFormulario() {
         boolean valido = true;
 
+        cmbPacientes.setBorder(bordeOriginal);
+        cmbOdontologos.setBorder(bordeOriginal);
+        spFecha.setBorder(bordeOriginal);
+        cmbHora.setBorder(bordeOriginal);
+
         if (cmbPacientes.getSelectedItem() == null) {
+            cmbPacientes.setBorder(new LineBorder(Color.RED, 2));
             valido = false;
         }
 
         if (cmbOdontologos.getSelectedItem() == null) {
+            cmbOdontologos.setBorder(new LineBorder(Color.RED, 2));
             valido = false;
         }
 
-        if (txtFecha.getText().trim().isEmpty()) {
-            txtFecha.setBorder(new LineBorder(Color.RED, 2));
+        if (spFecha.getValue() == null) {
+            spFecha.setBorder(new LineBorder(Color.RED, 2));
             valido = false;
         }
 
-        if (txtHora.getText().trim().isEmpty()) {
-            txtHora.setBorder(new LineBorder(Color.RED, 2));
+        if (cmbHora.getSelectedItem() == null) {
+            cmbHora.setBorder(new LineBorder(Color.RED, 2));
             valido = false;
+        }
+
+        if (valido) {
+            Date fechaHora = obtenerFechaHoraSeleccionada();
+
+            if (fechaHora.before(new Date())) {
+                spFecha.setBorder(new LineBorder(Color.RED, 2));
+                cmbHora.setBorder(new LineBorder(Color.RED, 2));
+                JOptionPane.showMessageDialog(
+                        this,
+                        "La fecha y hora del turno no puede ser anterior al momento actual.",
+                        "Validacion",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return false;
+            }
         }
 
         return valido;
+    }
+
+    private Date obtenerFechaHoraSeleccionada() {
+        Date fecha = (Date) spFecha.getValue();
+        String horaSeleccionada = (String) cmbHora.getSelectedItem();
+
+        String[] parteHora = horaSeleccionada.split(":");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fecha);
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(parteHora[0]));
+        cal.set(Calendar.MINUTE, Integer.parseInt(parteHora[1]));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        return cal.getTime();
     }
 
     private void crearTurno() {
@@ -201,10 +239,7 @@ public class PanelTurno extends JPanel {
         try {
             Paciente paciente = (Paciente) cmbPacientes.getSelectedItem();
             Odontologo odontologo = (Odontologo) cmbOdontologos.getSelectedItem();
-
-            Date fechaHora = formato.parse(
-                    txtFecha.getText().trim() + " " + txtHora.getText().trim()
-            );
+            Date fechaHora = obtenerFechaHoraSeleccionada();
 
             Turno turno = servicioTurno.crearTurno(
                     paciente,
@@ -219,17 +254,65 @@ public class PanelTurno extends JPanel {
                     "Turno creado correctamente.\nID: " + turno.getId()
             );
 
-            txtFecha.setText("");
-            txtHora.setText("");
-            cmbPacientes.setSelectedIndex(-1);
-            cmbOdontologos.setSelectedIndex(-1);
-
+            limpiarFormulario();
             actualizarTabla();
 
         } catch (Exception ex) {
-            txtFecha.setBorder(new LineBorder(Color.RED, 2));
-            txtHora.setBorder(new LineBorder(Color.RED, 2));
+            JOptionPane.showMessageDialog(
+                    this,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
 
+    private void reprogramarTurno() {
+        if (!validarFormulario()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Debe seleccionar paciente, odontologo, fecha y hora validos.",
+                    "Validacion",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        if (turnoSeleccionadoId == null) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Seleccione un turno de la tabla para reprogramar.",
+                    "Validacion",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        try {
+            Paciente pacienteSeleccionado = (Paciente) cmbPacientes.getSelectedItem();
+            Odontologo odontologoSeleccionado = (Odontologo) cmbOdontologos.getSelectedItem();
+            Date fechaHora = obtenerFechaHoraSeleccionada();
+
+            Turno turnoActual = servicioTurno.buscarTurno(turnoSeleccionadoId);
+
+            if (!turnoActual.getPaciente().getId().equals(pacienteSeleccionado.getId())
+                    || !turnoActual.getOdontologo().getId().equals(odontologoSeleccionado.getId())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Para reprogramar, debe mantener el mismo paciente y odontologo del turno seleccionado.",
+                        "Validacion",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+
+            servicioTurno.reprogramarTurno(turnoSeleccionadoId, fechaHora, fechaHora);
+
+            JOptionPane.showMessageDialog(this, "Turno reprogramado correctamente.");
+            actualizarTabla();
+            limpiarFormulario();
+
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     this,
                     ex.getMessage(),
@@ -253,6 +336,7 @@ public class PanelTurno extends JPanel {
             servicioTurno.cancelarTurno(id.longValue());
 
             actualizarTabla();
+            limpiarFormulario();
 
             JOptionPane.showMessageDialog(this, "Turno cancelado correctamente.");
 
@@ -282,6 +366,7 @@ public class PanelTurno extends JPanel {
             if (confirmar == JOptionPane.YES_OPTION) {
                 servicioTurno.eliminarTurno(id.longValue());
                 actualizarTabla();
+                limpiarFormulario();
                 JOptionPane.showMessageDialog(this, "Turno eliminado correctamente.");
             }
 
@@ -303,5 +388,66 @@ public class PanelTurno extends JPanel {
                     "$" + turno.getMontoFinal()
             });
         }
+    }
+
+    private void cargarTurnoSeleccionadoEnFormulario() {
+        int fila = tabla.getSelectedRow();
+
+        if (fila == -1) {
+            return;
+        }
+
+        try {
+            Long id = Long.parseLong(tabla.getValueAt(fila, 0).toString());
+            Turno turno = servicioTurno.buscarTurno(id);
+
+            turnoSeleccionadoId = id;
+
+            seleccionarPaciente(turno.getPaciente().getId());
+            seleccionarOdontologo(turno.getOdontologo().getId());
+
+            spFecha.setValue(turno.getFecha());
+            cmbHora.setSelectedItem(formatoHora.format(turno.getHora()));
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+
+    private void seleccionarPaciente(Integer idPaciente) {
+        for (int i = 0; i < cmbPacientes.getItemCount(); i++) {
+            Paciente paciente = cmbPacientes.getItemAt(i);
+            if (paciente != null && paciente.getId().equals(idPaciente)) {
+                cmbPacientes.setSelectedIndex(i);
+                return;
+            }
+        }
+        cmbPacientes.setSelectedIndex(-1);
+    }
+
+    private void seleccionarOdontologo(Integer idOdontologo) {
+        for (int i = 0; i < cmbOdontologos.getItemCount(); i++) {
+            Odontologo odontologo = cmbOdontologos.getItemAt(i);
+            if (odontologo != null && odontologo.getId().equals(idOdontologo)) {
+                cmbOdontologos.setSelectedIndex(i);
+                return;
+            }
+        }
+        cmbOdontologos.setSelectedIndex(-1);
+    }
+
+    private void limpiarFormulario() {
+        turnoSeleccionadoId = null;
+        cmbPacientes.setSelectedIndex(-1);
+        cmbOdontologos.setSelectedIndex(-1);
+        spFecha.setValue(new Date());
+        cmbHora.setSelectedIndex(0);
+
+        cmbPacientes.setBorder(bordeOriginal);
+        cmbOdontologos.setBorder(bordeOriginal);
+        spFecha.setBorder(bordeOriginal);
+        cmbHora.setBorder(bordeOriginal);
+
+        tabla.clearSelection();
     }
 }
