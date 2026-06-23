@@ -2,14 +2,18 @@ package view;
 
 import model.Odontologo;
 import model.Paciente;
-import repository.RepositorioOdontologo;
-import repository.RepositorioPaciente;
 import service.ServicioOdontologo;
 import service.ServicioPaciente;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PanelBusquedaAvanzada extends JPanel {
 
@@ -17,173 +21,179 @@ public class PanelBusquedaAvanzada extends JPanel {
     private ServicioOdontologo servicioOdontologo;
 
     private JTextField txtBusqueda;
-
     private JTable tabla;
     private DefaultTableModel modelo;
 
-    public PanelBusquedaAvanzada() {
+    private Border bordeOriginal;
 
-        servicioPaciente = new ServicioPaciente(
-                new RepositorioPaciente()
-        );
+    public PanelBusquedaAvanzada(ServicioPaciente servicioPaciente,
+                                 ServicioOdontologo servicioOdontologo) {
 
-        servicioOdontologo = new ServicioOdontologo(
-                new RepositorioOdontologo()
-        );
+        this.servicioPaciente = servicioPaciente;
+        this.servicioOdontologo = servicioOdontologo;
 
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
 
-        //--------------------------------
-        // PANEL SUPERIOR
-        //--------------------------------
-
-        JPanel panelSuperior = new JPanel();
+        JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelSuperior.setBorder(BorderFactory.createTitledBorder("Búsquedas"));
 
         txtBusqueda = new JTextField(20);
+        bordeOriginal = txtBusqueda.getBorder();
 
-        JButton btnBuscarPacienteID =
-                new JButton("Paciente por ID");
+        JButton btnBuscarPacienteID = new JButton("Paciente por ID");
+        JButton btnBuscarDNI = new JButton("Paciente por DNI");
+        JButton btnBuscarOdontologo = new JButton("Odontólogo por ID");
+        JButton btnLimpiar = new JButton("Limpiar");
 
-        JButton btnBuscarDNI =
-                new JButton("Paciente por DNI");
-
-        JButton btnBuscarOdontologo =
-                new JButton("Odontólogo por ID");
-
-        panelSuperior.add(
-                new JLabel("Valor:")
-        );
-
+        panelSuperior.add(new JLabel("Valor:"));
         panelSuperior.add(txtBusqueda);
-
         panelSuperior.add(btnBuscarPacienteID);
         panelSuperior.add(btnBuscarDNI);
         panelSuperior.add(btnBuscarOdontologo);
+        panelSuperior.add(btnLimpiar);
 
-        add(panelSuperior,
-                BorderLayout.NORTH);
+        add(panelSuperior, BorderLayout.NORTH);
 
-        //--------------------------------
-        // TABLA
-        //--------------------------------
-
-        modelo = new DefaultTableModel();
-
-        modelo.addColumn("Tipo");
-        modelo.addColumn("ID");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Apellido");
-        modelo.addColumn("Dato Extra");
+        modelo = new DefaultTableModel(new String[]{
+                "Tipo", "ID", "Nombre", "Apellido", "Dato Extra"
+        }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         tabla = new JTable(modelo);
+        add(new JScrollPane(tabla), BorderLayout.CENTER);
 
-        add(
-                new JScrollPane(tabla),
-                BorderLayout.CENTER
-        );
+        btnBuscarPacienteID.addActionListener(e -> buscarPacientePorId());
+        btnBuscarDNI.addActionListener(e -> buscarPacientePorDni());
+        btnBuscarOdontologo.addActionListener(e -> buscarOdontologoPorId());
+        btnLimpiar.addActionListener(e -> limpiarBusqueda());
 
-        //--------------------------------
-        // EVENTOS
-        //--------------------------------
+        txtBusqueda.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                txtBusqueda.setBorder(bordeOriginal);
+            }
+        });
 
-        btnBuscarPacienteID.addActionListener(
-                e -> buscarPacientePorId()
-        );
+        tabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = tabla.getSelectedRow();
 
-        btnBuscarDNI.addActionListener(
-                e -> buscarPacientePorDni()
-        );
-
-        btnBuscarOdontologo.addActionListener(
-                e -> buscarOdontologoPorId()
-        );
+                if (fila != -1) {
+                    JOptionPane.showMessageDialog(
+                            PanelBusquedaAvanzada.this,
+                            "Resultado seleccionado: " + tabla.getValueAt(fila, 1)
+                    );
+                }
+            }
+        });
     }
 
-    private void buscarPacientePorId() {
-
-        try {
-
-            modelo.setRowCount(0);
-
-            Long id = Long.parseLong(
-                    txtBusqueda.getText()
-            );
-
-            Paciente p =
-                    servicioPaciente.buscarPaciente(id);
-
-            modelo.addRow(new Object[]{
-                    "Paciente",
-                    p.getId(),
-                    p.getNombre(),
-                    p.getApellido(),
-                    p.getDni()
-            });
-
-        } catch (Exception ex) {
+    private boolean validarBusqueda() {
+        if (txtBusqueda.getText().trim().isEmpty()) {
+            txtBusqueda.setBorder(new LineBorder(Color.RED, 2));
 
             JOptionPane.showMessageDialog(
                     this,
-                    ex.getMessage()
+                    "Ingrese un valor de búsqueda.",
+                    "Validación",
+                    JOptionPane.WARNING_MESSAGE
             );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private void buscarPacientePorId() {
+        if (!validarBusqueda()) {
+            return;
+        }
+
+        try {
+            modelo.setRowCount(0);
+
+            Long id = Long.parseLong(txtBusqueda.getText().trim());
+
+            Paciente paciente = servicioPaciente.buscarPaciente(id);
+
+            modelo.addRow(new Object[]{
+                    "Paciente",
+                    paciente.getId(),
+                    paciente.getNombre(),
+                    paciente.getApellido(),
+                    paciente.getDni()
+            });
+
+        } catch (NumberFormatException ex) {
+            txtBusqueda.setBorder(new LineBorder(Color.RED, 2));
+            JOptionPane.showMessageDialog(this, "El ID debe ser numérico.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }
 
     private void buscarPacientePorDni() {
+        if (!validarBusqueda()) {
+            return;
+        }
 
         try {
-
             modelo.setRowCount(0);
 
-            Paciente p =
-                    servicioPaciente.buscarPorDni(
-                            txtBusqueda.getText()
-                    );
+            Paciente paciente = servicioPaciente.buscarPorDni(
+                    txtBusqueda.getText().trim()
+            );
 
             modelo.addRow(new Object[]{
                     "Paciente",
-                    p.getId(),
-                    p.getNombre(),
-                    p.getApellido(),
-                    p.getDni()
+                    paciente.getId(),
+                    paciente.getNombre(),
+                    paciente.getApellido(),
+                    paciente.getDni()
             });
 
         } catch (Exception ex) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    ex.getMessage()
-            );
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }
 
     private void buscarOdontologoPorId() {
+        if (!validarBusqueda()) {
+            return;
+        }
 
         try {
-
             modelo.setRowCount(0);
 
-            Long id = Long.parseLong(
-                    txtBusqueda.getText()
-            );
+            Long id = Long.parseLong(txtBusqueda.getText().trim());
 
-            Odontologo o =
-                    servicioOdontologo.buscarOdontologo(id);
+            Odontologo odontologo = servicioOdontologo.buscarOdontologo(id);
 
             modelo.addRow(new Object[]{
                     "Odontólogo",
-                    o.getId(),
-                    o.getNombre(),
-                    o.getApellido(),
-                    o.getMatricula()
+                    odontologo.getId(),
+                    odontologo.getNombre(),
+                    odontologo.getApellido(),
+                    odontologo.getMatricula()
             });
 
+        } catch (NumberFormatException ex) {
+            txtBusqueda.setBorder(new LineBorder(Color.RED, 2));
+            JOptionPane.showMessageDialog(this, "El ID debe ser numérico.");
         } catch (Exception ex) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    ex.getMessage()
-            );
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
+    }
+
+    private void limpiarBusqueda() {
+        txtBusqueda.setText("");
+        txtBusqueda.setBorder(bordeOriginal);
+        modelo.setRowCount(0);
     }
 }

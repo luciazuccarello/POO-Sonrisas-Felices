@@ -88,11 +88,6 @@ public abstract class Paciente implements Serializable {
 
     @Override
     public String toString() {
-        return "ID Paciente: " + id + "\n" +
-                "Nombre: " + nombre + " " + apellido + "\n" +
-                "DNI: " + dni + "\n" +
-                "Mail: " + mail + "\n" +
-                "Fecha de alta: " + fechaAlta + "\n" +
-                "Domicilio: " + domicilio;
+        return getId() + " - " + getNombre() + " " + getApellido();
     }
 }

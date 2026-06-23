@@ -61,9 +61,6 @@ public class Odontologo implements Serializable{
 
     @Override
     public String toString() {
-        return "ID Odontólogo: " + id + "\n" +
-                "Nombre: " + nombre + " " + apellido + "\n" +
-                "Mail Odontólogo: " + mail + "\n" +
-                "Matrícula: " + matricula;
+        return getId() + " - " + getNombre() + " " + getApellido();
     }
 }
