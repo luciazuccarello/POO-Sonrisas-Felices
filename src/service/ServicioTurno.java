@@ -6,6 +6,7 @@ import model.*;
 import model.Turno;
 import repository.RepositorioTurno;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +52,7 @@ public class ServicioTurno {
     // Nuevo: Búsqueda por rango de fechas (Uso avanzado de colecciones)
     public List<Turno> buscarTurnosPorRango(Date fechaInicio, Date fechaFin) {
         if (fechaInicio == null || fechaFin == null) {
-            return List.of();
+            return Collections.emptyList();
         }
         return repositorio.listarTodos().stream()
                 .filter(t -> !t.getFecha().before(fechaInicio) && !t.getFecha().after(fechaFin))
@@ -61,7 +62,7 @@ public class ServicioTurno {
     // Nuevo: Filtrar por paciente
     public List<Turno> filtrarPorPaciente(Integer idPaciente) {
         if (idPaciente == null) {
-            return List.of();
+            return Collections.emptyList();
         }
         return repositorio.listarTodos().stream()
                 .filter(t -> t.getPaciente().getId().equals(idPaciente))
@@ -71,7 +72,7 @@ public class ServicioTurno {
     // Nuevo: Filtrar por odontólogo
     public List<Turno> filtrarPorOdontologo(Integer idOdontologo) {
         if (idOdontologo == null) {
-            return List.of();
+            return Collections.emptyList();
         }
         return repositorio.listarTodos().stream()
                 .filter(t -> t.getOdontologo().getId().equals(idOdontologo))
@@ -85,7 +86,23 @@ public class ServicioTurno {
     }
 
     public void reprogramarTurno(Long id, Date nuevaFecha, Date nuevaHora) throws ClinicaException {
+        if (nuevaFecha == null || nuevaHora == null) {
+            throw new ClinicaException("La nueva fecha y hora del turno son obligatorias.");
+        }
+
         Turno turno = buscarTurno(id);
+
+        boolean horarioOcupado = repositorio.listarTodos().stream()
+                .anyMatch(t -> !t.getId().equals(id)
+                        && t.getOdontologo().getId().equals(turno.getOdontologo().getId())
+                        && t.getFecha().equals(nuevaFecha)
+                        && t.getHora().equals(nuevaHora)
+                        && t.getEstado() != EstadoTurno.CANCELADO);
+
+        if (horarioOcupado) {
+            throw new TurnoYaReservadoException("El odontologo ya tiene un turno reservado en esa fecha y hora.");
+        }
+
         turno.setFecha(nuevaFecha);
         turno.setHora(nuevaHora);
         turno.setEstado(EstadoTurno.CONFIRMADO);
