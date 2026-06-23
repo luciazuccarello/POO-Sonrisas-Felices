@@ -193,7 +193,46 @@ public class PanelPaciente extends JPanel {
             }
         }
 
+        if (!txtId.getText().trim().isEmpty() && !esNumeroEntero(txtId.getText().trim())) {
+            txtId.setBorder(new LineBorder(Color.RED, 2));
+            valido = false;
+        }
+
+        if (!txtNumero.getText().trim().isEmpty() && !esNumeroEntero(txtNumero.getText().trim())) {
+            txtNumero.setBorder(new LineBorder(Color.RED, 2));
+            valido = false;
+        }
+
+        if (!txtDni.getText().trim().isEmpty() && !esDniValido(txtDni.getText().trim())) {
+            txtDni.setBorder(new LineBorder(Color.RED, 2));
+            valido = false;
+        }
+
+        if (!txtMail.getText().trim().isEmpty() && !esMailValido(txtMail.getText().trim())) {
+            txtMail.setBorder(new LineBorder(Color.RED, 2));
+            valido = false;
+        }
+
+        if (cmbTipoPaciente.getSelectedItem().equals("Obra Social")
+                && !txtAfiliado.getText().trim().isEmpty()
+                && !esNumeroEntero(txtAfiliado.getText().trim())) {
+            txtAfiliado.setBorder(new LineBorder(Color.RED, 2));
+            valido = false;
+        }
+
         return valido;
+    }
+
+    private boolean esNumeroEntero(String valor) {
+        return valor.matches("\\d+");
+    }
+
+    private boolean esDniValido(String dni) {
+        return dni.matches("\\d{7,9}");
+    }
+
+    private boolean esMailValido(String mail) {
+        return mail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
 
     private void guardarPaciente() {
@@ -201,7 +240,7 @@ public class PanelPaciente extends JPanel {
         if (!validarFormulario()) {
             JOptionPane.showMessageDialog(
                     this,
-                    "Complete los campos marcados en rojo.",
+                    "Revise los campos marcados en rojo (obligatorios y formato).",
                     "Validación",
                     JOptionPane.WARNING_MESSAGE
             );
