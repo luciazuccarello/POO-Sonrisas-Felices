@@ -134,7 +134,34 @@ public class PanelOdontologo extends JPanel {
             }
         }
 
+        if (!txtId.getText().trim().isEmpty() && !esNumeroEntero(txtId.getText().trim())) {
+            txtId.setBorder(new LineBorder(Color.RED, 2));
+            valido = false;
+        }
+
+        if (!txtMail.getText().trim().isEmpty() && !esMailValido(txtMail.getText().trim())) {
+            txtMail.setBorder(new LineBorder(Color.RED, 2));
+            valido = false;
+        }
+
+        if (!txtMatricula.getText().trim().isEmpty() && !esMatriculaValida(txtMatricula.getText().trim())) {
+            txtMatricula.setBorder(new LineBorder(Color.RED, 2));
+            valido = false;
+        }
+
         return valido;
+    }
+
+    private boolean esNumeroEntero(String valor) {
+        return valor.matches("\\d+");
+    }
+
+    private boolean esMailValido(String mail) {
+        return mail.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+    }
+
+    private boolean esMatriculaValida(String matricula) {
+        return matricula.matches("[A-Za-z0-9-]{4,20}");
     }
 
     private void guardarOdontologo() {
@@ -142,7 +169,7 @@ public class PanelOdontologo extends JPanel {
         if (!validarFormulario()) {
             JOptionPane.showMessageDialog(
                     this,
-                    "Complete los campos marcados en rojo.",
+                    "Revise los campos marcados en rojo (obligatorios y formato).",
                     "Validación",
                     JOptionPane.WARNING_MESSAGE
             );
